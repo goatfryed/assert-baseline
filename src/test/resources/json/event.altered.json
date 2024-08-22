@@ -1,0 +1,21 @@
+{
+  "event": {
+    "id": "3a6f211d-938f-4e7e-af43-6b1807f8d4b0",
+    "timestamp": "2024-03-18T09:30:00Z",
+    "title": "Okarun's Cool Moment",
+    "character": "Okarun",
+    "series": "Dandadan",
+    "description": "Okarun displayed incredible speed and reflexes to save Momo from a surprise alien attack.",
+    "location": {
+      "city": "Tokyo",
+      "setting": "Abandoned Warehouse"
+    },
+    "action": {
+      "type": "super_speed",
+      "details": "Okarun dodged the alien's energy blast in a split second, counterattacked with a powerful kick, and rescued Momo without breaking a sweat.",
+      "impact": "The alien was knocked out, and Okarun's reputation as the group's savior was reinforced."
+    },
+    "emotions": ["excited", "relieved"],
+    "witnesses": ["Momo", "Seiko", "Alien Villain"]
+  }
+}

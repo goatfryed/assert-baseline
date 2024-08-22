@@ -1,0 +1,45 @@
+
+plugins {
+    // Apply the java-library plugin for API and implementation separation.
+    id 'java-library'
+}
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+}
+
+java {
+    registerFeature('json') {
+        usingSourceSet(sourceSets.main)
+    }
+}
+
+dependencies {
+    implementation 'commons-io:commons-io:2.16.1'
+    implementation 'org.apache.commons:commons-lang3:3.16.0'
+    implementation 'org.junit.jupiter:junit-jupiter:5.11.0'
+    implementation 'org.assertj:assertj-core:3.26.3'
+
+    jsonApi 'net.javacrumbs.json-unit:json-unit-assertj:3.4.1'
+
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
+}
+
+testing {
+    //noinspection GroovyAssignabilityCheck // experimental gradle api
+    suites {
+        // Configure the built-in test suite
+        test {
+            // Use JUnit Jupiter test framework
+            useJUnitJupiter('5.11.0')
+        }
+    }
+}
+
+// Apply a specific Java toolchain to ease working on different environments.
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
