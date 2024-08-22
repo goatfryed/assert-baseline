@@ -5,7 +5,7 @@ import org.xmlunit.diff.NodeFilters;
 
 import java.util.function.Predicate;
 
-public class XmlNodeFilters {
+public class XmlDiffConfiguration {
 
     public static Predicate<Node> standard() {
         return asPredicate(NodeFilters.Default);
@@ -24,5 +24,5 @@ public class XmlNodeFilters {
         return external::test;
     }
 
-    private XmlNodeFilters() { }
+    private XmlDiffConfiguration() { }
 }

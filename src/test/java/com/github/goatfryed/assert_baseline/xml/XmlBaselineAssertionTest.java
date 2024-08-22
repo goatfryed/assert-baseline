@@ -8,7 +8,7 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 
 import static com.github.goatfryed.assert_baseline.Assertions.assertThatXml;
-import static com.github.goatfryed.assert_baseline.xml.XmlNodeFilters.ignoringXPath;
+import static com.github.goatfryed.assert_baseline.xml.XmlDiffConfiguration.ignoringXPath;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.junit.jupiter.api.Assertions.*;
 

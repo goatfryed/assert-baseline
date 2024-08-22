@@ -1,4 +1,4 @@
-package com.github.goatfryed.assert_baseline.json;
+package com.github.goatfryed.assert_baseline.text;
 
 import com.github.goatfryed.assert_baseline.BaselineAssertion;
 import com.github.goatfryed.assert_baseline.Convention;
@@ -6,21 +6,22 @@ import com.github.goatfryed.assert_baseline.SerializableSubject;
 import net.javacrumbs.jsonunit.assertj.JsonAssert;
 import net.javacrumbs.jsonunit.core.Configuration;
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.StringAssert;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 
-public class JsonBaselineAssertion
-    extends AbstractAssert<JsonBaselineAssertion, String>
-    implements BaselineAssertion<JsonBaselineAssertion>
+public class TextBaselineAssertion
+    extends AbstractAssert<TextBaselineAssertion, String>
+    implements BaselineAssertion<TextBaselineAssertion>
 {
     private final SerializableSubject subject;
     private Function<Configuration, Configuration> comparatorConfigurer = Function.identity();
 
-    public JsonBaselineAssertion(SerializableSubject subject) {
-        super(subject.actual(), JsonBaselineAssertion.class);
+    public TextBaselineAssertion(SerializableSubject subject) {
+        super(subject.actual(), TextBaselineAssertion.class);
         this.subject = subject;
     }
 
@@ -28,8 +29,8 @@ public class JsonBaselineAssertion
      * Allows for simple interop with <a href="https://github.com/lukas-krecan/JsonUnit?tab=readme-ov-file#assertj-integration">JsonUnit</a>
      * to
      */
-    public JsonBaselineAssertion jsonSatisfies(Consumer<JsonAssert> assertion) {
-            assertion.accept(getJsonAssert());
+    public TextBaselineAssertion textSatisfies(Consumer<StringAssert> assertion) {
+            assertion.accept(getStringAssert());
             return myself;
     }
 
@@ -40,7 +41,7 @@ public class JsonBaselineAssertion
      * We use <a href="https://github.com/lukas-krecan/JsonUnit?tab=readme-ov-file#assertj-integration">JsonUnit</a>
      * under the hood. This method gives direct access to modify the JsonUnit assertion via the configuration api
      */
-    public JsonBaselineAssertion usingJsonComparator(
+    public TextBaselineAssertion usingStringComparator(
         Function<Configuration,Configuration> comparatorConfigurer
     ) {
         this.comparatorConfigurer = comparatorConfigurer;
@@ -49,18 +50,18 @@ public class JsonBaselineAssertion
     }
 
     @Override
-    public JsonBaselineAssertion isEqualToBaseline(String baselinePath) {
+    public TextBaselineAssertion isEqualToBaseline(String baselinePath) {
         var context = Convention.getInstance().createContext(baselinePath);
         subject.writeTo(context.getActual());
 
-        getJsonAssert()
+        getStringAssert()
             .describedAs(context.asDescription())
             .isEqualTo(context.getBaselineAsString());
 
         return myself;
     }
 
-    private JsonAssert.ConfigurableJsonAssert getJsonAssert() {
+    private JsonAssert.ConfigurableJsonAssert getStringAssert() {
         return assertThatJson(subject.serialized())
             .withConfiguration(comparatorConfigurer);
     }
