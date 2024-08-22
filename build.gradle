@@ -13,6 +13,9 @@ java {
     registerFeature('json') {
         usingSourceSet(sourceSets.main)
     }
+    registerFeature('xml') {
+        usingSourceSet(sourceSets.main)
+    }
 }
 
 dependencies {
@@ -22,6 +25,7 @@ dependencies {
     implementation 'org.assertj:assertj-core:3.26.3'
 
     jsonApi 'net.javacrumbs.json-unit:json-unit-assertj:3.4.1'
+    xmlApi 'org.xmlunit:xmlunit-assertj:2.10.0'
 
     testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
 }

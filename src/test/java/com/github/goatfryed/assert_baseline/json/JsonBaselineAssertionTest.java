@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JsonBaselineAssertionTest {
 
-    public final static String BASE_PATH = "src/test/resources/event.%s.json";
+    public final static String BASE_PATH = "src/test/resources/json/event.%s.json";
     public final static String ALTERED_PATH = BASE_PATH.formatted("altered");
     public final static String ACTUAL_PATH = BASE_PATH.formatted("actual");
     public final static String BASELINE_PATH = BASE_PATH.formatted("baseline");
@@ -61,7 +61,7 @@ class JsonBaselineAssertionTest {
         var jsonContent = FileUtils.readFileToString(ALTERED_FILE, StandardCharsets.UTF_8);
 
         assertThatJson(jsonContent)
-            .usingJsonComparator(config -> config
+            .usingJsonComparator(diff -> diff
                 .whenIgnoringPaths(
                     "$.event.id",
                     "$.event.timestamp"
