@@ -3,15 +3,14 @@ package com.github.goatfryed.assert_baseline.text;
 import com.github.goatfryed.assert_baseline.BaselineAssertion;
 import com.github.goatfryed.assert_baseline.Convention;
 import com.github.goatfryed.assert_baseline.SerializableSubject;
-import net.javacrumbs.jsonunit.assertj.JsonAssert;
 import net.javacrumbs.jsonunit.core.Configuration;
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.StringAssert;
+import org.assertj.core.api.AbstractStringAssert;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TextBaselineAssertion
     extends AbstractAssert<TextBaselineAssertion, String>
@@ -29,7 +28,7 @@ public class TextBaselineAssertion
      * Allows for simple interop with <a href="https://github.com/lukas-krecan/JsonUnit?tab=readme-ov-file#assertj-integration">JsonUnit</a>
      * to
      */
-    public TextBaselineAssertion textSatisfies(Consumer<StringAssert> assertion) {
+    public TextBaselineAssertion textSatisfies(Consumer<AbstractStringAssert<?>> assertion) {
             assertion.accept(getStringAssert());
             return myself;
     }
@@ -61,8 +60,7 @@ public class TextBaselineAssertion
         return myself;
     }
 
-    private JsonAssert.ConfigurableJsonAssert getStringAssert() {
-        return assertThatJson(subject.serialized())
-            .withConfiguration(comparatorConfigurer);
+    private AbstractStringAssert<?> getStringAssert() {
+        return assertThat(subject.serialized());
     }
 }
