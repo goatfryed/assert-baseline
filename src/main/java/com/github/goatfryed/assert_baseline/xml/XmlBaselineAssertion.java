@@ -1,7 +1,7 @@
 package com.github.goatfryed.assert_baseline.xml;
 
 import com.github.goatfryed.assert_baseline.BaselineAssertion;
-import com.github.goatfryed.assert_baseline.Convention;
+import com.github.goatfryed.assert_baseline.BaselineUtils;
 import com.github.goatfryed.assert_baseline.SerializableSubject;
 import org.assertj.core.api.AbstractAssert;
 import org.xmlunit.assertj.CompareAssert;
@@ -50,7 +50,7 @@ public class XmlBaselineAssertion
 
     @Override
     public XmlBaselineAssertion isEqualToBaseline(String baselinePath) {
-        var context = Convention.getInstance().createContext(baselinePath);
+        var context = BaselineUtils.getConvention().createContext(baselinePath);
         subject.writeTo(context.getActual());
 
         comparatorConfigurer.apply(

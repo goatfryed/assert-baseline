@@ -21,15 +21,6 @@ We wrap various well-established format-specific assertion libraries.
 They are optional dependencies and must be required explicitly.
 For gradle, capabilities can be used.
 
-## General
-The following conventions project conventions apply
-
-- baseline paths *must* contain `.baseline`, e.g. `my-response.baseline.json`
-- The actual serialized version is saved in the same directory with `.actual.` in the name
-- you should add `path/to/your/test/resources/**/*.actual*` to your .gitignore
-
-The general usage is as follows
-
 ```java
 import static com.github.goatfryed.assert_baseline.Assertions.assertThatJson;
 
@@ -43,7 +34,8 @@ assertThatJson(jsonString)
 `formatAssertion.usingFormatComparator(Function.identity())` provides ways to control the comparison
 in a format specific way exposing options of the reused libraries.
 
-`formatAssertion.formatSatisfies(...)` is a convenience method for custom assertions of the wrapped library. 
+`formatAssertion.formatSatisfies(...)` is a convenience method for custom assertions on the wrapped library.
+This should make it easier to mix both assertions in one chain.
 
 
 ## JSON
@@ -145,6 +137,44 @@ assertThatXml(xmlContent)
     ).isEqualToBaseline(pathToBaseline);
 ```
 
+## Convention & Configuration
+We assume that you follow *some* conventions about where your test files are stored.
+You can either use our minimal conventions or set up your own.
+
+### Default convention
+By default, the following conventions are assumed
+
+- baseline paths *must* contain `.baseline`, e.g. `my-response.baseline.json`
+- The actual serialized version is saved in the same directory with `.actual.` in the name
+- you should add `path/to/your/test/resources/**/*.actual*` to your .gitignore
+
+### Custom convention
+If you want to customize the baseline test behavior, you can do so using [SPI](https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html).
+Implement [com.github.goatfryed.assert_baseline.Convention](./src/main/java/com/github/goatfryed/assert_baseline/Convention.java).
+
+and register it in `META-INF/services/com.github.goatfryed.assert_baseline.Convention`.
+See [this](./src/testSpi/resources/META-INF/services/com.github.goatfryed.assert_baseline.Convention) example.
+
+Usually, you want to do so by extending
+[com.github.goatfryed.assert_baseline.convention.AbstractConvention](./src/main/java/com/github/goatfryed/assert_baseline/convention/AbstractConvention.java)
+
+```java
+public class MyBaselineConvention extends AbstractConvention {
+    
+    @Override
+    public void String resolveActualPath(String requestedBaselinePath) {
+        return "src/test/resources/actual/" + requestedBaselinePath 
+    }
+    
+    @Override
+    public void String resolveActualPath(String requestedBaselinePath) {
+        return "src/test/resources/expected/" + requestedBaselinePath
+    }
+}
+```
+This would allow you to call `assertThatJson(event).isEqualToBaseline(event.json)`
+and have the actual file stored as `src/test/resources/actual/event.json` and compared with
+`src/test/resources/expected/event.json`
 
 ## Related
 ### Related Projects
@@ -156,6 +186,5 @@ assertThatXml(xmlContent)
 - snapshot testing: Snapshot testing is one sub-variant of baseline testing in the context of UI testing
 
 ## Roadmap
-- [ ] configure the used conventions
 - [ ] support parameters other than string
 - [ ] more formats?

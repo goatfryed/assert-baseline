@@ -32,7 +32,7 @@ dependencies {
     implementation 'commons-io:commons-io:2.16.1'
     implementation 'org.apache.commons:commons-lang3:3.16.0'
     implementation 'org.junit.jupiter:junit-jupiter:5.11.0'
-    implementation 'org.assertj:assertj-core:3.26.3'
+    api 'org.assertj:assertj-core:3.26.3'
 
     jsonApi 'net.javacrumbs.json-unit:json-unit-assertj:3.4.1'
     xmlApi 'org.xmlunit:xmlunit-assertj:2.10.0'
@@ -43,12 +43,29 @@ dependencies {
 testing {
     //noinspection GroovyAssignabilityCheck // experimental gradle api
     suites {
-        // Configure the built-in test suite
+
         test {
-            // Use JUnit Jupiter test framework
-            useJUnitJupiter('5.11.0')
+            useJUnitJupiter()
+        }
+
+        testSpi(JvmTestSuite) {
+            dependencies {
+                implementation project()
+            }
+
+            targets {
+                all {
+                    testTask.configure {
+                        shouldRunAfter(test)
+                    }
+                }
+            }
         }
     }
+}
+
+tasks.named("check") {
+    dependsOn(testing.suites.testSpi)
 }
 
 tasks.named('javadoc', Javadoc) {

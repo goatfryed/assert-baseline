@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.NoSuchFileException;
 import java.util.List;
 
 public class BaselineContext {
@@ -28,7 +29,7 @@ public class BaselineContext {
     public String getBaselineAsString() {
         try {
             return FileUtils.readFileToString(baseline, StandardCharsets.UTF_8);
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | NoSuchFileException e) {
             throw new AssertionError(
                 "Baseline not found.\nConsider saving %s as %s".formatted(actual.getAbsolutePath(), baseline.getAbsolutePath()), e
             );

@@ -1,7 +1,7 @@
 package com.github.goatfryed.assert_baseline.json;
 
 import com.github.goatfryed.assert_baseline.BaselineAssertion;
-import com.github.goatfryed.assert_baseline.Convention;
+import com.github.goatfryed.assert_baseline.BaselineUtils;
 import com.github.goatfryed.assert_baseline.SerializableSubject;
 import net.javacrumbs.jsonunit.assertj.JsonAssert;
 import net.javacrumbs.jsonunit.core.Configuration;
@@ -50,7 +50,7 @@ public class JsonBaselineAssertion
 
     @Override
     public JsonBaselineAssertion isEqualToBaseline(String baselinePath) {
-        var context = Convention.getInstance().createContext(baselinePath);
+        var context = BaselineUtils.getConvention().createContext(baselinePath);
         subject.writeTo(context.getActual());
 
         getJsonAssert()
