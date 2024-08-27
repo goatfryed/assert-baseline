@@ -27,7 +27,7 @@ import static com.github.goatfryed.assert_baseline.Assertions.assertThatJson;
 assertThatJson(jsonString)
     .jsonSatisfies(jsonAssert -> jsonAssert.satisfiesSomething())
     .usingJsonComparator(diffConfig -> diffConfig.whenIgnoringPaths("..."))
-    .isEqualToBaseline("src/test/resources/my.baseline.json");
+    .isEqualToBaseline("src/test/resources/specs/my.baseline.json");
 ```
 `formatAssertion.isEqualToBaseline(pathToBaseline)` executes the baseline assertion
 
@@ -45,7 +45,7 @@ Json support is added through [json-unit](https://github.com/lukas-krecan/JsonUn
 import static com.github.goatfryed.assert_baseline.Assertions.assertThatJson;
 
 assertThatJson(jsonString)
-    .isEqualToBaseline("src/test/resources/my.baseline.json");
+    .isEqualToBaseline("src/test/resources/specs/my.baseline.json");
 ```
 
 ### Include in your project
@@ -93,7 +93,7 @@ XML support is added through [xml-unit](https://github.com/xmlunit/xmlunit).
 import static com.github.goatfryed.assert_baseline.Assertions.assertThatXml;
 
 assertThatXml(xmlString)
-    .isEqualToBaseline("src/test/resources/my.baseline.xml");
+    .isEqualToBaseline("src/test/resources/specs/my.baseline.xml");
 ```
 
 ### Include in your project
@@ -144,16 +144,34 @@ You can either use our minimal conventions or set up your own.
 ### Default convention
 By default, the following conventions are assumed
 
-- baseline paths *must* contain `.baseline`, e.g. `my-response.baseline.json`
-- The actual serialized version is saved in the same directory with `.actual.` in the name
-- you should add `path/to/your/test/resources/**/*.actual*` to your .gitignore
+1. baseline paths *must* contain `.baseline`, e.g. `my-response.baseline.json`
+2. The actual serialized version is saved in the same directory with `.actual.` in the name
+3. you should add `path/to/your/test/resources/**/*.actual.*` to your .gitignore
 
 ### Custom convention
 If you want to customize the baseline test behavior, you can do so using [SPI](https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html).
-Implement [com.github.goatfryed.assert_baseline.Convention](./src/main/java/com/github/goatfryed/assert_baseline/Convention.java).
 
-and register it in `META-INF/services/com.github.goatfryed.assert_baseline.Convention`.
+Register your desired Convention in `META-INF/services/com.github.goatfryed.assert_baseline.Convention`.
 See [this](./src/testSpi/resources/META-INF/services/com.github.goatfryed.assert_baseline.Convention) example.
+
+#### Recommended Convention
+Our recommended naming convention is
+
+1. baseline test data is placed in `src/test/resources/specs`. All baseline paths are relative to this directory
+   - if you use testFixtures, baseline test data is placed in `src/testFixtures/resources/specs` instead
+2. baseline test data can be named in any way
+3. actual data adds `.actual` before the file extension. E.g. `my-event.json` is saved as `my-event.actual.json`
+4. you should add `path/to/your/test/resources/**/*.actual.*` to your .gitignore
+
+If you want to opt into our recommendation, create `META-INF/services/com.github.goatfryed.assert_baseline.Convention`
+with the following content
+```text
+com.github.goatfryed.assert_baseline.convention.StandardConvention
+```
+
+
+#### Bring your own convention
+If you want to define your own convention, implement [com.github.goatfryed.assert_baseline.Convention](./src/main/java/com/github/goatfryed/assert_baseline/Convention.java).
 
 Usually, you want to do so by extending
 [com.github.goatfryed.assert_baseline.convention.AbstractConvention](./src/main/java/com/github/goatfryed/assert_baseline/convention/AbstractConvention.java)
