@@ -163,12 +163,12 @@ public class MyBaselineConvention extends AbstractConvention {
     
     @Override
     public void String resolveActualPath(String requestedBaselinePath) {
-        return "src/test/resources/actual/" + requestedBaselinePath 
+        return "src/test/resources/actual/" + requestedBaselinePath;
     }
     
     @Override
     public void String resolveActualPath(String requestedBaselinePath) {
-        return "src/test/resources/expected/" + requestedBaselinePath
+        return "src/test/resources/expected/" + requestedBaselinePath;
     }
 }
 ```
