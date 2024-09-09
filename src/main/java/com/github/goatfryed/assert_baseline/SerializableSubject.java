@@ -1,10 +1,10 @@
 package com.github.goatfryed.assert_baseline;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Supplier;
 
 public record SerializableSubject(String actual) {
 
@@ -12,9 +12,9 @@ public record SerializableSubject(String actual) {
         return actual;
     }
 
-    public void writeTo(File file) {
-        try {
-            FileUtils.write(file, serialized(), StandardCharsets.UTF_8);
+    public void writeTo(Supplier<OutputStream> outputStream) {
+        try (var writer = new OutputStreamWriter(outputStream.get(), StandardCharsets.UTF_8)) {
+            writer.write(actual);
         } catch (IOException e) {
             throw new AssertionError("couldn't write actual to file", e);
         }

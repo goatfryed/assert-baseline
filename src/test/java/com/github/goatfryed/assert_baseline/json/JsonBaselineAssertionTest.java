@@ -6,21 +6,23 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 
-import static com.github.goatfryed.assert_baseline.Assertions.assertThatJson;
+import static com.github.goatfryed.assert_baseline.BaselineAssertions.assertThatJson;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JsonBaselineAssertionTest {
 
-    public final static String BASE_PATH = "src/test/resources/json/event.%s.json";
+    public final static String BASE_PATH = "json/event.%s.json";
     public final static String ALTERED_PATH = BASE_PATH.formatted("altered");
     public final static String ACTUAL_PATH = BASE_PATH.formatted("actual");
     public final static String BASELINE_PATH = BASE_PATH.formatted("baseline");
-    public final static File ACTUAL_FILE = new File(ACTUAL_PATH);
-    public final static File ALTERED_FILE = new File(ALTERED_PATH);
-    public final static File BASELINE_FILE = new File(BASELINE_PATH);
+    public final static Path RESOURCE_ROOT = Path.of("src/test/resources");
+    public final static File ACTUAL_FILE = RESOURCE_ROOT.resolve(ACTUAL_PATH).toFile();
+    public final static File ALTERED_FILE = RESOURCE_ROOT.resolve(ALTERED_PATH).toFile();
+    public final static File BASELINE_FILE = RESOURCE_ROOT.resolve(BASELINE_PATH).toFile();
 
     @BeforeEach
     public void cleanup() {

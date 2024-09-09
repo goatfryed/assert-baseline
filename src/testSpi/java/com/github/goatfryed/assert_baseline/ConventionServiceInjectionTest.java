@@ -4,11 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-import static com.github.goatfryed.assert_baseline.Assertions.assertThatText;
+import static com.github.goatfryed.assert_baseline.BaselineAssertions.assertThatText;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Test that Baseline Conventions can be controlled via SPI of {@link Convention} Interface
+ * Test that Baseline Conventions can be controlled via SPI of {@link BaselineConvention} Interface
  */
 class ConventionServiceInjectionTest {
 

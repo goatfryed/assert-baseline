@@ -1,5 +1,8 @@
 package com.github.goatfryed.assert_baseline.convention;
 
+import com.github.goatfryed.assert_baseline.core.BaselineContext;
+import com.github.goatfryed.assert_baseline.core.BaselineConventionBuilder;
+import com.github.goatfryed.assert_baseline.core.storage.FileValue;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
 
@@ -11,10 +14,9 @@ class StandardConventionTest {
 
     @Test
     public void itSupportsMavenStandardLayout() {
-        assertConventionBuildsPaths(
+        assertConventionSelectsActualPaths(
             "my-assumption.txt",
-            "src/test/resources/specs/my-assumption.actual.txt",
-            "src/test/resources/specs/my-assumption.txt"
+            "src/test/resources/my-assumption.actual.txt"
         );
     }
 
@@ -23,10 +25,9 @@ class StandardConventionTest {
         var testFixturesPath = Path.of("src/testFixtures");
         assert testFixturesPath.toFile().mkdirs();
         try {
-            assertConventionBuildsPaths(
+            assertConventionSelectsActualPaths(
                 "my-assumption.txt",
-                "src/testFixtures/resources/specs/my-assumption.actual.txt",
-                "src/testFixtures/resources/specs/my-assumption.txt"
+                "src/testFixtures/resources/my-assumption.actual.txt"
             );
         } finally {
             assert testFixturesPath.toFile().delete();
@@ -35,33 +36,26 @@ class StandardConventionTest {
 
     @Test
     public void itSupportsMissingFileExtension() {
-        assertConventionBuildsPaths(
+        assertConventionSelectsActualPaths(
             "my-assumption",
-            "src/test/resources/specs/my-assumption.actual",
-            "src/test/resources/specs/my-assumption"
+            "src/test/resources/my-assumption.actual"
         );
     }
 
-    private void assertConventionBuildsPaths(
+    private void assertConventionSelectsActualPaths(
         String requestedBaseline,
-        String actualPath,
-        String baselinePath
+        String actualPath
     ) {
-        var convention = new StandardConvention();
-
+        var convention = BaselineConventionBuilder.createStandard().build();
         var context = convention.createContext(requestedBaseline);
 
         assertThat(context)
-            .extracting("baseline")
-            .asInstanceOf(InstanceOfAssertFactories.FILE)
-            .describedAs("baseline path")
-            .satisfies(it -> assertThat(it.toString())
-                .endsWith(Path.of(baselinePath).toString())
-            );
-
-        assertThat(context.getActual().toString())
+            .extracting(BaselineContext::getActual)
+            .asInstanceOf(InstanceOfAssertFactories.type(FileValue.class))
+            .extracting(FileValue::asPath)
             .describedAs("actual path")
-            .endsWith(Path.of(actualPath).toString());
+            .asInstanceOf(InstanceOfAssertFactories.PATH)
+            .isEqualTo(Path.of(actualPath));
     }
 
 }

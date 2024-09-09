@@ -1,21 +1,17 @@
 package com.github.goatfryed.assert_baseline.json;
 
-import com.github.goatfryed.assert_baseline.BaselineAssertion;
-import com.github.goatfryed.assert_baseline.BaselineUtils;
+import com.github.goatfryed.assert_baseline.core.AbstractBaselineAssertion;
+import com.github.goatfryed.assert_baseline.core.BaselineContext;
 import com.github.goatfryed.assert_baseline.SerializableSubject;
 import net.javacrumbs.jsonunit.assertj.JsonAssert;
 import net.javacrumbs.jsonunit.core.Configuration;
-import org.assertj.core.api.AbstractAssert;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 
-public class JsonBaselineAssertion
-    extends AbstractAssert<JsonBaselineAssertion, String>
-    implements BaselineAssertion<JsonBaselineAssertion>
-{
+public class JsonBaselineAssertion extends AbstractBaselineAssertion<JsonBaselineAssertion> {
     private final SerializableSubject subject;
     private Function<Configuration, Configuration> comparatorConfigurer = Function.identity();
 
@@ -49,15 +45,15 @@ public class JsonBaselineAssertion
     }
 
     @Override
-    public JsonBaselineAssertion isEqualToBaseline(String baselinePath) {
-        var context = BaselineUtils.getConvention().createContext(baselinePath);
-        subject.writeTo(context.getActual());
+    protected void saveActual(BaselineContext context) {
+        subject.writeTo(context::getActualOutputStream);
+    }
 
+    @Override
+    protected void verifyIsEqualToBaseline(BaselineContext context) {
         getJsonAssert()
             .describedAs(context.asDescription())
             .isEqualTo(context.getBaselineAsString());
-
-        return myself;
     }
 
     private JsonAssert.ConfigurableJsonAssert getJsonAssert() {

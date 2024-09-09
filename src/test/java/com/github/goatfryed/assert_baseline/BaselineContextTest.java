@@ -1,8 +1,8 @@
 package com.github.goatfryed.assert_baseline;
 
+import com.github.goatfryed.assert_baseline.core.BaselineConventionBuilder;
+import com.github.goatfryed.assert_baseline.core.BaselineConventionImpl;
 import org.junit.jupiter.api.Test;
-
-import java.io.File;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
@@ -11,14 +11,12 @@ class BaselineContextTest {
 
     @Test
     public void itRecommendsCopyActionOnMissingBaseline() {
-        var context = new BaselineContext(
-            new File("path/that/is/ignored"),
-            new File("path/to/missing/baseline")
-        );
+        var defaultConvention = BaselineConventionBuilder.createStandard().build();
+        var context = defaultConvention.createContext("baseline.txt");
 
-        assertThatCode(context::getBaselineAsString)
-            .hasMessageContaining("Baseline not found")
-            .hasMessageMatching("(.|\\n)*Consider saving .* as .*");
+        assertThatCode(context::getBaselineInputStream)
+            .hasMessageContaining("No baseline found")
+            .hasMessageMatching("(.|\\n)*Consider saving .* as .*(.|\\n)*");
     }
 
 }
