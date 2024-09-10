@@ -5,7 +5,7 @@ plugins {
     id 'maven-publish'
 }
 
-group = "com.github.goatfryed"
+group = "io.github.goatfryed"
 version = "1.0.0-alpha1-SNAPSHOT"
 
 repositories {

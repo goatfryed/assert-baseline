@@ -1,8 +1,8 @@
 package support;
 
-import com.github.goatfryed.assert_baseline.core.BaselineContextFactory;
-import com.github.goatfryed.assert_baseline.core.convention.BaselineConvention;
-import com.github.goatfryed.assert_baseline.core.convention.BaselineConventionProvider;
+import io.github.goatfryed.assert_baseline.core.BaselineContextFactory;
+import io.github.goatfryed.assert_baseline.core.convention.BaselineConvention;
+import io.github.goatfryed.assert_baseline.core.convention.BaselineConventionProvider;
 
 public class TestConventionProvider implements BaselineConventionProvider {
 

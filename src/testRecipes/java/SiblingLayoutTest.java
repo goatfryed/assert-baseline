@@ -1,9 +1,9 @@
-import com.github.goatfryed.assert_baseline.core.convention.ConventionBuilder;
+import io.github.goatfryed.assert_baseline.core.convention.ConventionBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.github.goatfryed.assert_baseline.BaselineAssertions.assertThatText;
-import static com.github.goatfryed.assert_baseline.core.storage.StorageConfigUtils.inContextPath;
+import static io.github.goatfryed.assert_baseline.BaselineAssertions.assertThatText;
+import static io.github.goatfryed.assert_baseline.core.storage.StorageConfigUtils.inContextPath;
 import static support.Assertions.assertBaselineUsed;
 import static support.Assertions.assertActualFile;
 import static support.TestConventionProvider.testWithConvention;
