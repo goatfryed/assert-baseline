@@ -1,4 +1,6 @@
 # AssertBaseline
+[![Build Status](https://github.com/goatfryed/assert-baseline/actions/workflows/verify.yml/badge.svg)](https://github.com/goatfryed/assert-baseline/actions/workflows/verify.yml)
+
 Compare objects with well-defined rules for serialization based on there serialized representation
 
 ## What is baseline testing?
