@@ -3,6 +3,7 @@ plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
 }
 
 group = "io.github.goatfryed"
@@ -91,7 +92,7 @@ tasks.named('javadoc', Javadoc) {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        lib(MavenPublication) {
             from components.java
 
             pom {
@@ -113,6 +114,12 @@ publishing {
                         email = 'goatfryed@gmail.com'
                     }
                 }
+
+                scm {
+                    connection = 'scm:git:git://github.com/goatfryed/assert-baseline.git'
+                    developerConnection = 'scm:git:ssh://github.com/goatfryed/assert-baseline.git'
+                    url = 'github.com/goatfryed/assert-baseline'
+                }
             }
         }
     }
@@ -120,9 +127,15 @@ publishing {
     repositories {
         maven {
             name = 'MavenCentral'
-            url = version.endsWith('SNAPSHOT') ?
-                    uri('https://s01.oss.sonatype.org/content/repositories/snapshots/') :
-                    uri('https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/')
+            url = uri('https://central.sonatype.com/api/v1/publisher')
+            credentials(org.gradle.api.credentials.PasswordCredentials)
         }
     }
+}
+
+signing {
+    def signingKey = findProject("signing.privateKey")
+    def signingPassword = findProject("signing.password")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications
 }
