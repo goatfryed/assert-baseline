@@ -29,6 +29,12 @@ java {
     }
 }
 
+javadoc {
+    options {
+        addBooleanOption('Xdoclint:all,-missing', true)
+    }
+}
+
 dependencies {
     implementation 'commons-io:commons-io:2.16.1'
     implementation 'org.apache.commons:commons-lang3:3.16.0'

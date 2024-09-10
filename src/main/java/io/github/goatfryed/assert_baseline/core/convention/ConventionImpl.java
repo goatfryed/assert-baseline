@@ -1,7 +1,6 @@
 package io.github.goatfryed.assert_baseline.core.convention;
 
 import io.github.goatfryed.assert_baseline.core.BaselineContextFactory;
-import com.github.goatfryed.assert_baseline.core.storage.*;
 
 import java.util.function.Supplier;
 

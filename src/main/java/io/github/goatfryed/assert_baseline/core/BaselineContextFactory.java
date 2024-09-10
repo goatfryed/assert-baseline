@@ -1,6 +1,5 @@
 package io.github.goatfryed.assert_baseline.core;
 
-import com.github.goatfryed.assert_baseline.core.storage.*;
 import io.github.goatfryed.assert_baseline.core.storage.*;
 
 import java.util.function.Function;

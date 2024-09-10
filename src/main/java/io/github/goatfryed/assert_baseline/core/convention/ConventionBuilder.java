@@ -1,7 +1,6 @@
 package io.github.goatfryed.assert_baseline.core.convention;
 
 import io.github.goatfryed.assert_baseline.core.BaselineContextFactory;
-import com.github.goatfryed.assert_baseline.core.storage.*;
 import io.github.goatfryed.assert_baseline.core.storage.ConfigurableStorageConfigurer;
 import io.github.goatfryed.assert_baseline.core.storage.StorageConfig;
 import io.github.goatfryed.assert_baseline.core.storage.StorageConfigValidator;
