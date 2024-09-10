@@ -1,125 +1,72 @@
 package com.github.goatfryed.assert_baseline.core;
 
-import com.github.goatfryed.assert_baseline.core.storage.StoredValue;
+import com.github.goatfryed.assert_baseline.core.storage.*;
 
-import java.nio.file.Path;
-import java.util.Objects;
 import java.util.function.Function;
 
 public class BaselineContextFactory {
 
-    private Function<BaselineContextFactory, Path> actualPathSupplier;
-    private Function<BaselineContextFactory, Path> baselinePathSupplier;
-    private Function<BaselineContextFactory, StoredValue> actualFactory;
-    private Function<BaselineContextFactory, StoredValue> baselineFactory;
-    private StoredValue actual;
-    private StoredValue baseline;
+    private StorageConfigurer storageConfigurator;
+    private StoredValueStrategy actualFactory;
+    private StoredValueStrategy baselineFactory;
 
-    /**
-     * The path of the baseline output is relative to your baseline resource root
-     */
-    public Path getBaselinePath() {
-        return Objects.requireNonNull(baselinePathSupplier.apply(this), "baseline name supplier returned null");
-    }
+    // nullable
+    private StorageConfigValidator configValidator;
 
-    /**
-     * @see #getBaselinePath()
-     */
-    public BaselineContextFactory setBaselinePathSupplier(Function<BaselineContextFactory, Path> baselinePathSupplier) {
-        this.baselinePathSupplier = baselinePathSupplier;
+    public BaselineContextFactory storage(Function<StorageConfigurer, StorageConfigurer> configureStorage) {
+        var prev = storageConfigurator != null ? storageConfigurator : new ConfigurableStorageConfigurer();
+        this.storageConfigurator = configureStorage.apply(prev);
         return this;
     }
 
-    /**
-     * The path of the actual output is relative to your baseline resource root
-     */
-    public Path getActualPath() {
-        return Objects.requireNonNull(actualPathSupplier.apply(this), "actual name supplier returned null");
+    public BaselineContextFactory setStorageConfigurator(StorageConfigurer storageConfigurator) {
+        this.storageConfigurator = storageConfigurator;
+        return this;
     }
 
-    public BaselineContextFactory setActualPathSupplier(Function<BaselineContextFactory, Path> actualPathSupplier) {
-        this.actualPathSupplier = actualPathSupplier;
+    public BaselineContextFactory setStorageConfig(StorageConfig storageConfig) {
+        setStorageConfigurator(_key -> storageConfig);
         return this;
     }
 
     /**
      * A factory function to create the {@link StoredValue} interface to your actual output.
-     * Usually, a factory wants to use {@link #getActualPath()} to create the interface.
      */
-    public Function<BaselineContextFactory, StoredValue> getActualFactory() {
-        return actualFactory;
-    }
-
-
-    /**
-     * @see #getActualFactory()
-     */
-    public BaselineContextFactory setActualFactory(Function<BaselineContextFactory, StoredValue> actualFactory) {
+    public BaselineContextFactory setActualFactory(StoredValueStrategy actualFactory) {
         this.actualFactory = actualFactory;
         return this;
     }
 
-
     /**
      * A factory function to create the {@link StoredValue} interface to your baseline.
-     * Usually, a factory wants to use {@link #getBaselinePath()} to create the interface.
      */
-    public Function<BaselineContextFactory, StoredValue> getBaselineFactory() {
-        return baselineFactory;
-    }
-
-    /**
-     * @see #getBaselineFactory()
-     */
-    public BaselineContextFactory setBaselineFactory(Function<BaselineContextFactory, StoredValue> baselineFactory) {
+    public BaselineContextFactory setBaselineFactory(StoredValueStrategy baselineFactory) {
         this.baselineFactory = baselineFactory;
         return this;
     }
 
-    public StoredValue getActual() {
-        if (actual == null) {
-            if (actualFactory != null) {
-                actual = actualFactory.apply(this);
-                Objects.requireNonNull(actual, "actual factory returned null");
-            }
+    public BaselineContext build(String requestedKey) {
+        var config = storageConfigurator.createConfig(requestedKey);
+
+        if (configValidator != null) {
+            configValidator.validate(config);
         }
-        return actual;
-    }
 
-    public BaselineContextFactory setActual(StoredValue actual) {
-        this.actual = actual;
-        return this;
-    }
-
-    public StoredValue getBaseline() {
-        if (baseline == null) {
-            if (baselineFactory != null) {
-                baseline = baselineFactory.apply(this);
-                Objects.requireNonNull(baseline, "baseline factory returned null");
-            }
-        }
-        return baseline;
-    }
-
-    public BaselineContextFactory setBaseline(StoredValue baseline) {
-        this.baseline = baseline;
-        return this;
-    }
-
-    public BaselineContext build() {
-        var baseline = getBaseline();
+        var baseline = baselineFactory.apply(config);
         if (baseline == null) {
             throw new IllegalStateException("neither baseline nor baseline factory was defined");
         }
-        var actual = getActual();
+
+        var actual = actualFactory.apply(config);
         if (actual == null) {
             throw new IllegalStateException("neither actual nor actual factory was defined");
         }
+
         return new BaselineContext(baseline, actual);
     }
 
-    public BaselineContextFactory setBaselinePath(Path baselinePath) {
-        setBaselinePathSupplier(ctx -> baselinePath);
+    public BaselineContextFactory setValidator(StorageConfigValidator configValidator) {
+        this.configValidator = configValidator;
         return this;
     }
 }

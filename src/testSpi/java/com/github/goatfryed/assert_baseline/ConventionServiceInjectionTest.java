@@ -1,8 +1,12 @@
 package com.github.goatfryed.assert_baseline;
 
+import com.github.goatfryed.assert_baseline.core.convention.BaselineConvention;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
+import java.io.IOException;
+import java.nio.file.Files;
 
 import static com.github.goatfryed.assert_baseline.BaselineAssertions.assertThatText;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,9 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ConventionServiceInjectionTest {
 
     @BeforeEach
-    public void prepare() {
-        //noinspection ResultOfMethodCallIgnored // delete if exists
-        TestConvention.FIXED_ACTUAL_PATH.toFile().delete();
+    public void prepare() throws IOException {
+        Files.deleteIfExists(TestConventionProvider.ACTUAL_FILE);
     }
 
     @Test
@@ -25,7 +28,7 @@ class ConventionServiceInjectionTest {
             .isEqualToBaseline("i-am-ignored");
 
         assertTrue(
-            TestConvention.FIXED_ACTUAL_PATH.toFile().exists(),
+            Files.exists(TestConventionProvider.ACTUAL_FILE),
             "Expected actual file was not generated"
         );
     }

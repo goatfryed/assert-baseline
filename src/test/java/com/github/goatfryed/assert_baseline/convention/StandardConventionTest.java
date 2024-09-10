@@ -1,7 +1,8 @@
 package com.github.goatfryed.assert_baseline.convention;
 
 import com.github.goatfryed.assert_baseline.core.BaselineContext;
-import com.github.goatfryed.assert_baseline.core.BaselineConventionBuilder;
+import com.github.goatfryed.assert_baseline.core.convention.ConventionSupport;
+import com.github.goatfryed.assert_baseline.core.convention.presets.StandardConventionProvider;
 import com.github.goatfryed.assert_baseline.core.storage.FileValue;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
@@ -46,7 +47,7 @@ class StandardConventionTest {
         String requestedBaseline,
         String actualPath
     ) {
-        var convention = BaselineConventionBuilder.createStandard().build();
+        var convention = new StandardConventionProvider().getConvention();
         var context = convention.createContext(requestedBaseline);
 
         assertThat(context)

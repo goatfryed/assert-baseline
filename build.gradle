@@ -61,11 +61,28 @@ testing {
                 }
             }
         }
+
+        testRecipes(JvmTestSuite) {
+            dependencies {
+                implementation project()
+                implementation 'commons-io:commons-io:2.16.1'
+                implementation 'org.apache.commons:commons-lang3:3.16.0'
+            }
+
+            targets {
+                all {
+                    testTask.configure {
+                        shouldRunAfter(testSpi)
+                    }
+                }
+            }
+        }
     }
 }
 
 tasks.named("check") {
     dependsOn(testing.suites.testSpi)
+    dependsOn(testing.suites.testRecipes)
 }
 
 tasks.named('javadoc', Javadoc) {

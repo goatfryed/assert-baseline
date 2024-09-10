@@ -2,9 +2,11 @@ package com.github.goatfryed.assert_baseline.core;
 
 import com.github.goatfryed.assert_baseline.core.storage.StoredValue;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.JoinDescription;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -41,6 +43,13 @@ public class BaselineContext {
     public InputStream getBaselineInputStream() {
         try {
             return baseline.getInputStream();
+        } catch (FileNotFoundException e) {
+            throw new AssertionError(
+                "No baseline found. Consider saving %s as baseline.".formatted(
+                    actual.asDescription()
+                ),
+                e
+            );
         } catch (IOException e) {
             throw new AssertionError("failed to create input stream for baseline", e);
         }
@@ -57,8 +66,8 @@ public class BaselineContext {
     }
 
     public String getBaselineAsString() {
-        try {
-            return IOUtils.toString(getBaselineInputStream(), StandardCharsets.UTF_8);
+        try (var input = getBaselineInputStream()) {
+            return IOUtils.toString(input, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new AssertionError(
                 "Failed to read baseline as string\n%s".formatted(getActual().asDescription()),
