@@ -106,7 +106,7 @@ centralPortalPlus {
     url = centralPortalPublishDummyRepo
     username = findProperty("mavenCentralUsername")
     password = findProperty("mavenCentralPassword")
-    publishingType = BaseCentralPortalPlusExtension.PublishingType.USER_MANAGED
+    publishingType = BaseCentralPortalPlusExtension.PublishingType.AUTOMATIC
 }
 
 publishing {
