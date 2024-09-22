@@ -1,9 +1,11 @@
+import cn.lalaki.pub.BaseCentralPortalPlusExtension
 
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
     id 'maven-publish'
     id 'signing'
+    id("cn.lalaki.central") version "1.2.5"
 }
 
 group = "io.github.goatfryed"
@@ -99,7 +101,22 @@ tasks.named('javadoc', Javadoc) {
     setFailOnError(true)
 }
 
+def centralPortalPublishDummyRepo = new File(projectDir, "build/maven-central-dummy").toURI()
+centralPortalPlus {
+    url = centralPortalPublishDummyRepo
+    username = findProperty("mavenCentralUsername")
+    password = findProperty("mavenCentralPassword")
+    publishingType = BaseCentralPortalPlusExtension.PublishingType.USER_MANAGED
+}
+
 publishing {
+    repositories {
+        maven {
+            name = "mavenCentral"
+            url = centralPortalPublishDummyRepo
+        }
+    }
+
     publications {
         lib(MavenPublication) {
             from components.java
@@ -135,14 +152,6 @@ publishing {
                     url = 'https://github.com/goatfryed/assert-baseline/issues'
                 }
             }
-        }
-    }
-
-    repositories {
-        maven {
-            name = 'mavenCentral'
-            url = uri('https://central.sonatype.com/api/v1/publisher')
-            credentials(org.gradle.api.credentials.PasswordCredentials)
         }
     }
 }
