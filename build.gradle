@@ -7,7 +7,6 @@ plugins {
 }
 
 group = "io.github.goatfryed"
-version = "1.0.0-alpha1-SNAPSHOT"
 
 repositories {
     // Use Maven Central for resolving dependencies.

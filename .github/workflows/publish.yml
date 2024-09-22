@@ -13,8 +13,15 @@ jobs:
                 distribution: temurin
                 java-version: 21
           - uses: gradle/actions/setup-gradle@v4
+          - name: Get release version
+            run: |
+                VERSION=${{ github.event.release.tag_name }}
+                # Remove the "v" prefix, if it exists
+                LIB_VERSION=${VERSION#v}
+                echo "Release version: $LIB_VERSION"
+                echo "LIB_VERSION=$LIB_VERSION" >> $GITHUB_ENV
           - name: Publish
-            run: ./gradlew publish
+            run: ./gradlew -Pversion=$LIB_VERSION publish
             env:
                 ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
                 ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
