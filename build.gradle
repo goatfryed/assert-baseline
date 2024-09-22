@@ -148,8 +148,8 @@ publishing {
 }
 
 signing {
-    def signingKey = findProject("signing.privateKey")
-    def signingPassword = findProject("signing.password")
+    def signingKey = findProperty("signing.privateKey")
+    def signingPassword = findProperty("signing.password")
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign publishing.publications
 }
