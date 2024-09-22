@@ -3,6 +3,8 @@ package io.github.goatfryed.assert_baseline.core.storage;
 import io.github.goatfryed.assert_baseline.core.Configurer;
 import io.github.goatfryed.assert_baseline.core.storage.driver.StorageDriver;
 import io.github.goatfryed.assert_baseline.core.storage.location.ConfigurableLocationStrategy;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -15,27 +17,27 @@ public class StorageFactory {
     private Function<StorageConfig, ValueDescriptor> baselineLocationStrategy;
     private Function<StorageConfig, ValueDescriptor> actualLocationStrategy;
 
-    public StorageFactory withBaselineDriver(StorageDriver baselineDriver) {
+    public StorageFactory withBaselineDriver(@NotNull StorageDriver baselineDriver) {
         this.baselineDriver = Objects.requireNonNull(baselineDriver, "storage driver must not be null");
         return this;
     }
 
-    public StorageFactory withActualDriver(StorageDriver actualDriver) {
+    public StorageFactory withActualDriver(@NotNull StorageDriver actualDriver) {
         this.actualDriver = Objects.requireNonNull(actualDriver, "storage driver must not be null");
         return this;
     }
 
-    public StorageFactory withBaselineLocationStrategy(Function<StorageConfig, ValueDescriptor> baselineLocationStrategy) {
+    public StorageFactory withBaselineLocationStrategy(@NotNull Function<StorageConfig, ValueDescriptor> baselineLocationStrategy) {
         this.baselineLocationStrategy = Objects.requireNonNull(baselineLocationStrategy,"location strategy must not be null");
         return this;
     }
 
-    public StorageFactory withActualLocationStrategy(Function<StorageConfig, ValueDescriptor> actualLocationStrategy) {
+    public StorageFactory withActualLocationStrategy(@NotNull Function<StorageConfig, ValueDescriptor> actualLocationStrategy) {
         this.actualLocationStrategy = Objects.requireNonNull(actualLocationStrategy, "location strategy must not be null");
         return this;
     }
 
-    public StorageFactory baselineLocation(Configurer<ConfigurableLocationStrategy> configurer) {
+    public StorageFactory baselineLocation(@NotNull Configurer<ConfigurableLocationStrategy> configurer) {
         if (!(baselineLocationStrategy instanceof ConfigurableLocationStrategy) ) {
             throw new IllegalStateException(
                 "The updater shorthand can only be used, if a %s is configured as baseline location strategy"
@@ -46,7 +48,7 @@ public class StorageFactory {
         return this;
     }
 
-    public StorageFactory actualLocation(Configurer<ConfigurableLocationStrategy> configurer) {
+    public StorageFactory actualLocation(@NotNull Configurer<ConfigurableLocationStrategy> configurer) {
         if (!(actualLocationStrategy instanceof ConfigurableLocationStrategy) ) {
             throw new IllegalStateException(
                 "The updater shorthand can only be used, if a %s is configured as actual location strategy"
@@ -57,7 +59,7 @@ public class StorageFactory {
         return this;
     }
 
-    public StorageConfig createConfig(String requestedKey) {
+    public StorageConfig createConfig(@Nullable String requestedKey) {
 
         Objects.requireNonNull(baselineDriver, "baseline storage driver must not be null");
         Objects.requireNonNull(actualDriver, "actual storage driver must not be null");

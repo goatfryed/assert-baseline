@@ -2,6 +2,7 @@ package io.github.goatfryed.assert_baseline.core.storage.location;
 
 import io.github.goatfryed.assert_baseline.core.storage.StorageConfig;
 import io.github.goatfryed.assert_baseline.core.storage.ValueDescriptor;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.util.Objects;
@@ -10,12 +11,14 @@ import java.util.function.Function;
 
 public class ConfigurableLocationStrategy implements Function<StorageConfig, ValueDescriptor> {
 
+    @NotNull
     private final Function<StorageConfig, Path> valuePathStrategy;
+    @NotNull
     private final BiFunction<ValueDescriptor, StorageConfig, Path> rootPathStrategy;
 
     public ConfigurableLocationStrategy(
-        Function<StorageConfig, Path> valuePathStrategy,
-        BiFunction<ValueDescriptor, StorageConfig, Path> rootPathStrategy
+        @NotNull Function<StorageConfig, Path> valuePathStrategy,
+        @NotNull BiFunction<ValueDescriptor, StorageConfig, Path> rootPathStrategy
     ) {
         this.valuePathStrategy = Objects.requireNonNull(valuePathStrategy, "value path strategy cannot be null");
         this.rootPathStrategy = Objects.requireNonNull(rootPathStrategy, "root path strategy cannot be null");

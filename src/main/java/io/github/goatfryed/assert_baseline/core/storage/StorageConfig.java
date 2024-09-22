@@ -1,21 +1,28 @@
 package io.github.goatfryed.assert_baseline.core.storage;
 
 import io.github.goatfryed.assert_baseline.core.storage.driver.StorageDriver;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
 public class StorageConfig {
 
+    @Nullable
     private final String key;
+    @NotNull
     private final StorageDriver baselineDriver;
+    @NotNull
     private final StorageDriver actualDriver;
+    @NotNull
     private ValueDescriptor baseline;
+    @NotNull
     private ValueDescriptor actual;
 
     public StorageConfig(
-        String key,
-        StorageDriver baselineDriver,
-        StorageDriver actualDriver
+        @Nullable String key,
+        @NotNull StorageDriver baselineDriver,
+        @NotNull StorageDriver actualDriver
     ) {
         this.key = key;
         this.baselineDriver = Objects.requireNonNull(baselineDriver, "baseline driver must not be null");
@@ -24,32 +31,32 @@ public class StorageConfig {
         actual = new ValueDescriptor();
     }
 
-    public String getKey() {
+    public @Nullable String getKey() {
         return key;
     }
 
-    public StorageDriver getBaselineDriver() {
+    public @NotNull StorageDriver getBaselineDriver() {
         return baselineDriver;
     }
 
-    public StorageDriver getActualDriver() {
+    public @NotNull StorageDriver getActualDriver() {
         return actualDriver;
     }
 
-    public ValueDescriptor getBaseline() {
+    public @NotNull ValueDescriptor getBaseline() {
         return baseline;
     }
 
-    public StorageConfig setBaseline(ValueDescriptor baseline) {
+    public StorageConfig setBaseline(@NotNull ValueDescriptor baseline) {
         this.baseline = Objects.requireNonNull(baseline, "baseline descriptor must not be null");
         return this;
     }
 
-    public ValueDescriptor getActual() {
+    public @NotNull ValueDescriptor getActual() {
         return actual;
     }
 
-    public StorageConfig setActual(ValueDescriptor actual) {
+    public StorageConfig setActual(@NotNull ValueDescriptor actual) {
         this.actual = Objects.requireNonNull(actual, "actual descriptor must not be null");
         return this;
     }

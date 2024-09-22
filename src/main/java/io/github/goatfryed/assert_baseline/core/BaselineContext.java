@@ -4,6 +4,8 @@ import io.github.goatfryed.assert_baseline.core.storage.StoredValue;
 import org.apache.commons.io.IOUtils;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.JoinDescription;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,18 +18,17 @@ import java.util.List;
 
 public class BaselineContext {
 
+    @NotNull
     private final StoredValue actual;
+    @NotNull
     private final StoredValue baseline;
+    @Nullable
     private String requestedKey;
 
-    public BaselineContext(StoredValue baseline, StoredValue actual) {
-        this(null, baseline, actual);
-    }
-
     public BaselineContext(
-        String requestedKey,
-        StoredValue baseline,
-        StoredValue actual
+        @Nullable String requestedKey,
+        @NotNull StoredValue baseline,
+        @NotNull StoredValue actual
     ) {
         this.requestedKey = requestedKey;
         this.actual = actual;
@@ -37,28 +38,28 @@ public class BaselineContext {
         baseline.setName("baseline :");
     }
 
-    public String getRequestedKey() {
+    public @Nullable String getRequestedKey() {
         return requestedKey;
     }
 
-    public BaselineContext setRequestedKey(String requestedKey) {
+    public BaselineContext setRequestedKey(@Nullable String requestedKey) {
         this.requestedKey = requestedKey;
         return this;
     }
 
-    public StoredValue getActual() {
+    public @NotNull StoredValue getActual() {
         return actual;
     }
 
-    public OutputStream getActualOutputStream() {
+    public @NotNull OutputStream getActualOutputStream() {
         return actual.getOutputStream();
     }
 
-    public StoredValue getBaseline() {
+    public @NotNull StoredValue getBaseline() {
         return baseline;
     }
 
-    public InputStream getBaselineInputStream() {
+    public @NotNull InputStream getBaselineInputStream() {
         try {
             return baseline.getInputStream();
         } catch (AssertionError e) {
@@ -73,7 +74,7 @@ public class BaselineContext {
         }
     }
 
-    public Description asDescription() {
+    public @NotNull Description asDescription() {
         return new JoinDescription(
             "Baseline set","",
             Arrays.asList(

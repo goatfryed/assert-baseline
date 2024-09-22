@@ -4,6 +4,7 @@ package io.github.goatfryed.assert_baseline.core.storage;
 import io.github.goatfryed.assert_baseline.core.storage.driver.StorageDriver;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,11 +12,17 @@ import java.io.OutputStream;
 
 public class StoredValue {
 
+    @NotNull
     private final ValueDescriptor descriptor;
+    @NotNull
     private final StorageDriver driver;
+    @NotNull
     private String name = "stored value";
 
-    public StoredValue(StorageDriver driver, ValueDescriptor descriptor) {
+    public StoredValue(
+        @NotNull StorageDriver driver,
+        @NotNull ValueDescriptor descriptor
+    ) {
         this.driver = driver;
         this.descriptor = descriptor;
     }
@@ -31,15 +38,7 @@ public class StoredValue {
         return descriptor;
     }
 
-    public StorageDriver getDriver() {
-        return driver;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public StoredValue setName(String name) {
+    public StoredValue setName(@NotNull String name) {
         this.name = name;
         return this;
     }

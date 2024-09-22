@@ -1,19 +1,19 @@
 package io.github.goatfryed.assert_baseline.core.storage;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
 public class ValueDescriptor {
 
+    @Nullable
     private Path contextPath;
+    @Nullable
     private Path valuePath;
     private final Set<String> tags = new HashSet<>();
-
-    public ValueDescriptor setContextPath(Path contextPath) {
-        this.contextPath = contextPath;
-        return this;
-    }
 
     public ValueDescriptor() {}
 
@@ -27,11 +27,16 @@ public class ValueDescriptor {
         return contextPath == null ? Path.of("") : contextPath;
     }
 
-    public Path getValuePath() {
+    public ValueDescriptor setContextPath(@Nullable Path contextPath) {
+        this.contextPath = contextPath;
+        return this;
+    }
+
+    public @Nullable Path getValuePath() {
         return valuePath;
     }
 
-    public ValueDescriptor setValuePath(Path key) {
+    public ValueDescriptor setValuePath(@NotNull Path key) {
         this.valuePath = key;
         return this;
     }
