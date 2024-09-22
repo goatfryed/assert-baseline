@@ -140,7 +140,7 @@ publishing {
 
     repositories {
         maven {
-            name = 'MavenCentral'
+            name = 'mavenCentral'
             url = uri('https://central.sonatype.com/api/v1/publisher')
             credentials(org.gradle.api.credentials.PasswordCredentials)
         }
