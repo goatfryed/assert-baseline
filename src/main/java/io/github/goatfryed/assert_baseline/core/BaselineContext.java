@@ -22,29 +22,16 @@ public class BaselineContext {
     private final StoredValue actual;
     @NotNull
     private final StoredValue baseline;
-    @Nullable
-    private String requestedKey;
 
     public BaselineContext(
-        @Nullable String requestedKey,
         @NotNull StoredValue baseline,
         @NotNull StoredValue actual
     ) {
-        this.requestedKey = requestedKey;
         this.actual = actual;
         this.baseline = baseline;
 
         actual  .setName("actual   :");
         baseline.setName("baseline :");
-    }
-
-    public @Nullable String getRequestedKey() {
-        return requestedKey;
-    }
-
-    public BaselineContext setRequestedKey(@Nullable String requestedKey) {
-        this.requestedKey = requestedKey;
-        return this;
     }
 
     public @NotNull StoredValue getActual() {

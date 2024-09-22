@@ -36,8 +36,8 @@ class StorageRecipesTest {
                 assertThatText(text)
                     .usingStorage(
                         commonRootPath("var/test/specs")
-                            .and(actualPath("my-actual.txt"))
                             .and(baselinePath("my-baseline.txt"))
+                            .and(actualPath("my-actual.txt"))
                     ).isEqualToBaseline("whatever"),
             "var/test/specs/my-baseline.txt"
         );

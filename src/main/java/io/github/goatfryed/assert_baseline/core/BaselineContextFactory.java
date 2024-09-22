@@ -21,7 +21,7 @@ public class BaselineContextFactory {
 
         validateDifferentPaths(baseline, actual);
 
-        return new BaselineContext(requestedKey, baseline, actual);
+        return new BaselineContext(baseline, actual);
     }
 
     private void validateDifferentPaths(StoredValue baseline, StoredValue actual) {
@@ -30,7 +30,7 @@ public class BaselineContextFactory {
         if (Objects.equals(baselineDriverDescriptor, actualDriverDescriptor)) {
             throw new IllegalStateException(
                 "Actual and baseline both resolve to " + actualDriverDescriptor
-                    + "\nActual both should have different names, be placed in different paths or on different systems."
+                    + "\nBoth should have different names, be placed in different paths or on different systems."
             );
         }
     }

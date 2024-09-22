@@ -15,9 +15,7 @@ public interface StorageDriver {
     StoredValue resolve(ValueDescriptor descriptor);
     InputStream getInputStream(ValueDescriptor descriptor) throws IOException;
     OutputStream getOutputStream(ValueDescriptor descriptor) throws IOException;
-    default Description asDescription(ValueDescriptor descriptor) {
-        return new TextDescription(descriptor.toString());
-    }
+    Description asDescription(ValueDescriptor descriptor);
 
     Object getDriverDescriptor(ValueDescriptor descriptor);
 }
