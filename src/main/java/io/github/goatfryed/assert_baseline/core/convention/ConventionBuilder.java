@@ -1,43 +1,28 @@
 package io.github.goatfryed.assert_baseline.core.convention;
 
 import io.github.goatfryed.assert_baseline.core.BaselineContextFactory;
-import io.github.goatfryed.assert_baseline.core.storage.ConfigurableStorageConfigurer;
-import io.github.goatfryed.assert_baseline.core.storage.StorageConfig;
-import io.github.goatfryed.assert_baseline.core.storage.StorageConfigValidator;
-import io.github.goatfryed.assert_baseline.core.storage.StoredValueStrategy;
+import io.github.goatfryed.assert_baseline.core.Configurer;
+import io.github.goatfryed.assert_baseline.core.storage.StorageFactory;
+import io.github.goatfryed.assert_baseline.core.storage.driver.FileSystemDriver;
 
-import java.util.function.Function;
-
-import static io.github.goatfryed.assert_baseline.core.convention.ConventionSupport.actualAsSibling;
-import static io.github.goatfryed.assert_baseline.core.storage.StorageConfigUtils.baselineAsRequested;
+import static io.github.goatfryed.assert_baseline.core.convention.Conventions.*;
 
 public class ConventionBuilder {
 
-    private ConfigurableStorageConfigurer storageConfigurer = new ConfigurableStorageConfigurer();
-    private StoredValueStrategy baselineValueStrategy;
-    private StoredValueStrategy actualValueStrategy;
-    private StorageConfigValidator storageConfigValidator;
+    private Configurer<StorageFactory> storageConfigurer = Configurer.noOp();
 
     public static ConventionBuilder builderWithDefaults() {
         return new ConventionBuilder()
-            .storing(baselineAsRequested())
-            .storing(actualAsSibling())
-            .withActualValueStrategy(new FileStorageStrategy(StorageConfig::getActualPath))
-            .withBaselineValueStrategy(new FileStorageStrategy(StorageConfig::getBaselinePath));
+            .usingStorage(config -> config
+                .withBaselineDriver(new FileSystemDriver())
+                .withBaselineLocationStrategy(recommendBaselineLocationStrategy())
+                .withActualDriver(new FileSystemDriver())
+                .withActualLocationStrategy(recommendActualLocationStrategy())
+            );
     }
 
-    public ConventionBuilder storing(Function<ConfigurableStorageConfigurer,ConfigurableStorageConfigurer> configurer) {
-        storageConfigurer = configurer.apply(storageConfigurer);
-        return this;
-    }
-
-    public ConventionBuilder withBaselineValueStrategy(StoredValueStrategy baselineValueStrategy) {
-        this.baselineValueStrategy = baselineValueStrategy;
-        return this;
-    }
-
-    public ConventionBuilder withActualValueStrategy(StoredValueStrategy actualValueStrategy) {
-        this.actualValueStrategy = actualValueStrategy;
+    public ConventionBuilder usingStorage(Configurer<StorageFactory> configurer) {
+        storageConfigurer = storageConfigurer.and(configurer);
         return this;
     }
 
@@ -46,18 +31,7 @@ public class ConventionBuilder {
     }
 
     private BaselineContextFactory createBaselineContextFactory() {
-        var factory = new BaselineContextFactory()
-            .setStorageConfigurator(storageConfigurer.copy())
-            .setBaselineFactory(baselineValueStrategy)
-            .setActualFactory(actualValueStrategy);
-        if (storageConfigValidator != null) {
-            factory.setValidator(storageConfigValidator);
-        }
-        return factory;
-    }
-
-    public ConventionBuilder withConfigValidator(StorageConfigValidator storageConfigValidator) {
-        this.storageConfigValidator = storageConfigValidator;
-        return this;
+        return new BaselineContextFactory()
+            .usingStorage(storageConfigurer);
     }
 }

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,10 +18,32 @@ public class BaselineContext {
 
     private final StoredValue actual;
     private final StoredValue baseline;
+    private String requestedKey;
 
     public BaselineContext(StoredValue baseline, StoredValue actual) {
+        this(null, baseline, actual);
+    }
+
+    public BaselineContext(
+        String requestedKey,
+        StoredValue baseline,
+        StoredValue actual
+    ) {
+        this.requestedKey = requestedKey;
         this.actual = actual;
         this.baseline = baseline;
+
+        actual  .setName("actual   :");
+        baseline.setName("baseline :");
+    }
+
+    public String getRequestedKey() {
+        return requestedKey;
+    }
+
+    public BaselineContext setRequestedKey(String requestedKey) {
+        this.requestedKey = requestedKey;
+        return this;
     }
 
     public StoredValue getActual() {
@@ -28,11 +51,7 @@ public class BaselineContext {
     }
 
     public OutputStream getActualOutputStream() {
-        try {
-            return actual.getOutputStream();
-        } catch (IOException e) {
-            throw new AssertionError("failed to create output stream for actual", e);
-        }
+        return actual.getOutputStream();
     }
 
     public StoredValue getBaseline() {
@@ -42,24 +61,24 @@ public class BaselineContext {
     public InputStream getBaselineInputStream() {
         try {
             return baseline.getInputStream();
-        } catch (FileNotFoundException e) {
-            throw new AssertionError(
-                "No baseline found. Consider saving %s as baseline.".formatted(
-                    actual.asDescription()
-                ),
-                e
-            );
-        } catch (IOException e) {
-            throw new AssertionError("failed to create input stream for baseline", e);
+        } catch (AssertionError e) {
+            if (e.getCause() instanceof FileNotFoundException) {
+                throw new AssertionError(
+                    "No baseline found. Consider saving %s as baseline.".formatted(
+                        actual.asDescription()
+                    ), e
+                );
+            }
+            throw e;
         }
     }
 
     public Description asDescription() {
         return new JoinDescription(
             "Baseline set","",
-            List.of(
-                new JoinDescription("Actual   :","", Collections.singletonList(actual.asDescription())),
-                new JoinDescription("Baseline :","", Collections.singletonList(baseline.asDescription()))
+            Arrays.asList(
+                baseline.asDescription(),
+                actual.asDescription()
             )
         );
     }

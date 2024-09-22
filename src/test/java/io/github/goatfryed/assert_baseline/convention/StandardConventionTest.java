@@ -2,7 +2,7 @@ package io.github.goatfryed.assert_baseline.convention;
 
 import io.github.goatfryed.assert_baseline.core.BaselineContext;
 import io.github.goatfryed.assert_baseline.core.convention.presets.StandardConventionProvider;
-import io.github.goatfryed.assert_baseline.core.storage.FileValue;
+import io.github.goatfryed.assert_baseline.core.storage.StoredValue;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
 
@@ -51,11 +51,14 @@ class StandardConventionTest {
 
         assertThat(context)
             .extracting(BaselineContext::getActual)
-            .asInstanceOf(InstanceOfAssertFactories.type(FileValue.class))
-            .extracting(FileValue::asPath)
-            .describedAs("actual path")
+            .asInstanceOf(InstanceOfAssertFactories.type(StoredValue.class))
+            .extracting(StoredValue::getDriverDescriptor)
             .asInstanceOf(InstanceOfAssertFactories.PATH)
-            .isEqualTo(Path.of(actualPath));
+            .describedAs("actual file")
+            .satisfies(path ->
+                assertThat(path)
+                    .isEqualTo(Path.of(actualPath))
+            );
     }
 
 }

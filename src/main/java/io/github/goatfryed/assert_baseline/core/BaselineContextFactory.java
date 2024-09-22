@@ -2,71 +2,36 @@ package io.github.goatfryed.assert_baseline.core;
 
 import io.github.goatfryed.assert_baseline.core.storage.*;
 
-import java.util.function.Function;
+import java.util.Objects;
 
 public class BaselineContextFactory {
 
-    private StorageConfigurer storageConfigurator;
-    private StoredValueStrategy actualFactory;
-    private StoredValueStrategy baselineFactory;
+    private StorageFactory storageFactory = new StorageFactory();
 
-    // nullable
-    private StorageConfigValidator configValidator;
-
-    public BaselineContextFactory storage(Function<StorageConfigurer, StorageConfigurer> configureStorage) {
-        var prev = storageConfigurator != null ? storageConfigurator : new ConfigurableStorageConfigurer();
-        this.storageConfigurator = configureStorage.apply(prev);
-        return this;
-    }
-
-    public BaselineContextFactory setStorageConfigurator(StorageConfigurer storageConfigurator) {
-        this.storageConfigurator = storageConfigurator;
-        return this;
-    }
-
-    public BaselineContextFactory setStorageConfig(StorageConfig storageConfig) {
-        setStorageConfigurator(_key -> storageConfig);
-        return this;
-    }
-
-    /**
-     * A factory function to create the {@link StoredValue} interface to your actual output.
-     */
-    public BaselineContextFactory setActualFactory(StoredValueStrategy actualFactory) {
-        this.actualFactory = actualFactory;
-        return this;
-    }
-
-    /**
-     * A factory function to create the {@link StoredValue} interface to your baseline.
-     */
-    public BaselineContextFactory setBaselineFactory(StoredValueStrategy baselineFactory) {
-        this.baselineFactory = baselineFactory;
+    public BaselineContextFactory usingStorage(Configurer<StorageFactory> storageConfigurer) {
+        this.storageFactory = storageConfigurer.apply(storageFactory);
         return this;
     }
 
     public BaselineContext build(String requestedKey) {
-        var config = storageConfigurator.createConfig(requestedKey);
 
-        if (configValidator != null) {
-            configValidator.validate(config);
-        }
+        var storageConfig = storageFactory.createConfig(requestedKey);
+        var baseline = storageConfig.getBaselineDriver().resolve(storageConfig.getBaseline());
+        var actual = storageConfig.getActualDriver().resolve(storageConfig.getActual());
 
-        var baseline = baselineFactory.apply(config);
-        if (baseline == null) {
-            throw new IllegalStateException("neither baseline nor baseline factory was defined");
-        }
+        validateDifferentPaths(baseline, actual);
 
-        var actual = actualFactory.apply(config);
-        if (actual == null) {
-            throw new IllegalStateException("neither actual nor actual factory was defined");
-        }
-
-        return new BaselineContext(baseline, actual);
+        return new BaselineContext(requestedKey, baseline, actual);
     }
 
-    public BaselineContextFactory setValidator(StorageConfigValidator configValidator) {
-        this.configValidator = configValidator;
-        return this;
+    private void validateDifferentPaths(StoredValue baseline, StoredValue actual) {
+        var baselineDriverDescriptor = baseline.getDriverDescriptor();
+        var actualDriverDescriptor = actual.getDriverDescriptor();
+        if (Objects.equals(baselineDriverDescriptor, actualDriverDescriptor)) {
+            throw new IllegalStateException(
+                "Actual and baseline both resolve to " + actualDriverDescriptor
+                    + "\nActual both should have different names, be placed in different paths or on different systems."
+            );
+        }
     }
 }

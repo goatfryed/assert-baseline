@@ -2,6 +2,7 @@ package io.github.goatfryed.assert_baseline.core;
 
 import io.github.goatfryed.assert_baseline.BaselineAssertion;
 import io.github.goatfryed.assert_baseline.core.convention.ConventionLocator;
+import io.github.goatfryed.assert_baseline.core.storage.StorageFactory;
 import org.assertj.core.api.AbstractAssert;
 
 import java.util.function.Function;
@@ -27,6 +28,13 @@ abstract public class AbstractBaselineAssertion<SELF extends AbstractBaselineAss
 
         saveActual(context);
         verifyIsEqualToBaseline(context);
+
+        return myself;
+    }
+
+    public final SELF usingStorage(Configurer<StorageFactory> configurer) {
+        getContextFactory()
+            .usingStorage(configurer);
 
         return myself;
     }

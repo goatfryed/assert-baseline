@@ -1,6 +1,6 @@
-**/test/resources/**/*.actual.*
-**/testRecipes/resources/**/*.actual.*
-src/testSpi/resources/produced-content.txt
+/src/**/resources/**/*-actual.*
+/src/**/resources/**/*.actual.*
+/var/test
 
 # Ignore Gradle project-specific cache directory
 .gradle

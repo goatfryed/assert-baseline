@@ -12,8 +12,8 @@ import java.util.function.Function;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TextBaselineAssertion extends AbstractBaselineAssertion<TextBaselineAssertion> {
+
     private final SerializableSubject subject;
-    private Function<Configuration, Configuration> comparatorConfigurer = Function.identity();
 
     public TextBaselineAssertion(SerializableSubject subject) {
         super(subject.actual(), TextBaselineAssertion.class);
