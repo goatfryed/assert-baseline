@@ -129,6 +129,11 @@ publishing {
                     developerConnection = 'scm:git:ssh://github.com/goatfryed/assert-baseline.git'
                     url = 'github.com/goatfryed/assert-baseline'
                 }
+
+                issueManagement {
+                    system = 'GitHub'
+                    url = 'https://github.com/goatfryed/assert-baseline/issues'
+                }
             }
         }
     }
