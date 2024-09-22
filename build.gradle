@@ -144,7 +144,7 @@ publishing {
                 scm {
                     connection = 'scm:git:git://github.com/goatfryed/assert-baseline.git'
                     developerConnection = 'scm:git:ssh://github.com/goatfryed/assert-baseline.git'
-                    url = 'github.com/goatfryed/assert-baseline'
+                    url = 'https://github.com/goatfryed/assert-baseline'
                 }
 
                 issueManagement {
