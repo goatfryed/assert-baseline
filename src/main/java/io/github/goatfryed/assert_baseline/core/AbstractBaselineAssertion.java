@@ -39,8 +39,14 @@ abstract public class AbstractBaselineAssertion<SELF extends AbstractBaselineAss
         return myself;
     }
 
+    /**
+     * Expects you to write your subject in serialized form to {@link BaselineContext#getActualOutputStream()}
+     */
     abstract protected void saveActual(BaselineContext context);
 
+    /**
+     * Usually, you'll want to read {@link BaselineContext#getBaselineAsString()}, deserialize the baseline and compare the models.
+     */
     abstract protected void verifyIsEqualToBaseline(BaselineContext context);
 
     private BaselineContextFactory getContextFactory() {

@@ -39,7 +39,7 @@ All formats are optional dependencies.
 #### Include in your project
 For gradle capabilities can be used
 ```groovy
-implementation("com.github.goatfryed:assert-baseline:1.0.0-alpha1-SNAPSHOT") {
+implementation("com.github.goatfryed:assert-baseline:{version}") {
   capabilities {
      requireCapability("com.github.goatfryed:assert-baseline-{format}")
   }
@@ -52,11 +52,13 @@ For maven
     <dependency>
         <groupId>com.github.goatfryed</groupId>
         <artifactId>assert-baseline</artifactId>
-        <version>1.0.0-alpha1-SNAPSHOT</version>
+        <version>{version}</version>
     </dependency>
     <!-- check the optional dependencies of your format -->
 </dependencies>
 ````
+
+See [releases](https://github.com/goatfryed/assert-baseline/releases) for the latest release version.
 
 #### Writing assertions
 ```java
