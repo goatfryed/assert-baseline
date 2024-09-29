@@ -24,7 +24,7 @@ For maven
     <dependency>
         <groupId>com.github.goatfryed</groupId>
         <artifactId>assert-baseline</artifactId>
-        <version>1.0.0-alpha1-SNAPSHOT</version>
+        <version>{version}</version>
     </dependency>
     <dependency>
         <groupId>net.javacrumbs.json-unit</groupId>
