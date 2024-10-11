@@ -119,18 +119,23 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/goatfr
 <!-- You might want to create an issue template for enhancement suggestions that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->
 
 ### Your First Code Contribution
-TODO
-<!-- TODO
-include Setup of env, IDE and typical getting started instructions?
 
--->
+You want to to contribute? Awesome! Look at the existing issues, and ask for one to be assigned to you.
+
+PRs for additional formats are highly appreciated at the moment, as long as they follow our general project philosophy.
+TOML, YAML, you name it. A PR is highly welcome, but might discuss the underlying testing library.
+
+Since this project focuses on testing, we value proper testing. ;-) We are glad to assist first time contributors
+in test design and appreciate PRs that improve the test concept. We aim for high code coverage and value c>1
+code coverage. So if you have ideas how to improve testing, we are glad to discuss concepts.
 
 ### Improving The Documentation
-TODO
-<!-- TODO
-Updating, improving and correcting the documentation
+As this project is still in it's early phase, feedback and contribution to the documentation is highly appreciate.
 
--->
+You read te docs and find something confusing, unclear, or just a typo? Feel free to contact me or improve it with a PR.
+
+Please understand that the documentation should be helpful, but concise at the moment. There might be additions that are
+worth for sure, but might not make it at the moment. Still, your feedback is appreciated.
 
 ## Styleguides
 ### Commit Messages
