@@ -8,7 +8,7 @@ what this projects aims to be.
 Note that project does not necessarily mean one single library artifact.
 
 ## Goals
-- Provide an assertj integration for baseline testing and follow it's general feel
+- Provide an assertj integration for baseline testing and follow its general feel
 - Provide easy integration with common format assertion libraries
 - Provide sensible defaults that work for most projects and extensibility to overwrite all
 - Handle basic storage aspects (e.g. file system handling, path management)
