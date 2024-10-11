@@ -1,5 +1,5 @@
 # JSON Assertions
-Json support is added through [json-unit](https://github.com/lukas-krecan/JsonUnit).
+JSON support is added through [json-unit](https://github.com/lukas-krecan/JsonUnit).
 
 ```java
 import static com.github.goatfryed.assert_baseline.Assertions.assertThatJson;
@@ -34,7 +34,7 @@ For maven
 </dependencies>
 ````
 
-## Tips & Recipies
+## Tips & Recipes
 ### Ignore auto-generated, volatile fields
 ```java
 assertThatJson(jsonString)
