@@ -1,8 +1,8 @@
 # Text Assertions
-String assertions require no additional dependency and use simply assertJ.
+String assertions require no additional dependency and use simply AssertJ.
 
 ```java
-import static com.github.goatfryed.assert_baseline.Assertions.assertThatJson;
+import static com.github.goatfryed.assert_baseline.Assertions.assertThatText;
 
 assertThatText(yourString)
     .isEqualToBaseline("src/test/resources/specs/my.baseline.txt");
@@ -25,5 +25,5 @@ For maven
 </dependencies>
 ````
 
-## Tips & Recipies
-`usingTextComparator` is simply an alias for `usingComparator` of assertJ on String subjects
+## Tips & Recipes
+`usingTextComparator` is simply an alias for `usingComparator` of AssertJ on String subjects

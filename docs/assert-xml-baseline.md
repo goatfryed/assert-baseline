@@ -34,7 +34,7 @@ For maven
 </dependencies>
 ````
 
-## Tips & Recipies
+## Tips & Recipes
 Ignore auto-generated, volatile fields
 ```java
 import static com.github.goatfryed.assert_baseline.xml.XmlDiffConfiguration.ignoringXPath;

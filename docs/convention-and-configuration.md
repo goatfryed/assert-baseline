@@ -32,12 +32,12 @@ Usually, you want to do so by extending
 public class MyBaselineConvention extends AbstractConvention {
     
     @Override
-    public void String resolveActualPath(String requestedBaselinePath) {
+    public String resolveActualPath(String requestedBaselinePath) {
         return "src/test/resources/actual/" + requestedBaselinePath;
     }
     
     @Override
-    public void String resolveActualPath(String requestedBaselinePath) {
+    public String resolveActualPath(String requestedBaselinePath) {
         return "src/test/resources/expected/" + requestedBaselinePath;
     }
 }
