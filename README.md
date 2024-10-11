@@ -1,7 +1,7 @@
 # AssertBaseline
 [![Build Status](https://github.com/goatfryed/assert-baseline/actions/workflows/verify.yml/badge.svg)](https://github.com/goatfryed/assert-baseline/actions/workflows/verify.yml)
 
-Compare and approve system outputs with well-defined serialization rules based on there serialized representation.
+Compare and approve system outputs with well-defined serialization rules based on their serialized representation.
 
 ## What is AssertBaseline?
 AssertBaseline extends [AssertJ](https://github.com/assertj/assertj) to integrate format specific assertions with
@@ -37,7 +37,7 @@ For more details and other formats, see below.
 All formats are optional dependencies.
 
 #### Include in your project
-For gradle capabilities can be used
+For Gradle, capabilities can be used
 ```groovy
 implementation("com.github.goatfryed:assert-baseline:{version}") {
   capabilities {
@@ -70,7 +70,7 @@ assertThatJson(jsonString)
     .isEqualToBaseline("specs/my.baseline.json");
 ```
 `formatAssertion.isEqualToBaseline(pathToBaseline)` executes the baseline assertion.
-The parameter pathToBaseline is relative to the resource context. See more on convention below
+The parameter pathToBaseline is relative to the resource context. See more on conventions below
 
 `formatAssertion.using{Format}Comparator(...)` provides ways to control the comparison
 in a format specific way exposing options of the reused libraries.
