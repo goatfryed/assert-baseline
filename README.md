@@ -103,7 +103,7 @@ By default, the following conventions are assumed
 
 See [conventions & configuration](./docs/convention-and-configuration.md) how this can be changed.
 
-## Goals & Non-Foals
+## Goals & Non-Goals
 See our [project scope](./docs/project-scope.md) to for more
 
 ## Related
@@ -114,3 +114,17 @@ See our [project scope](./docs/project-scope.md) to for more
 
 ### Related Concepts
 - snapshot testing: Snapshot testing is one sub-variant of baseline testing in the context of UI testing
+
+### Roadmap
+Check the issues for enhancement to see plans or the future.
+
+The following format support is considered
+- csv
+- yaml
+- toml
+- structured logging ...?
+- suggestions welcome
+
+Let us know what formats you are interested in.
+Enhancement request welcome. [Want to contribute? awesome!](./CONTRIBUTING.md)
+
