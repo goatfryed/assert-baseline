@@ -39,9 +39,9 @@ All formats are optional dependencies.
 #### Include in your project
 For Gradle, capabilities can be used
 ```groovy
-implementation("com.github.goatfryed:assert-baseline:{version}") {
+implementation("io.github.goatfryed:assert-baseline:{version}") {
   capabilities {
-     requireCapability("com.github.goatfryed:assert-baseline-{format}")
+     requireCapability("io.github.goatfryed:assert-baseline-{format}")
   }
 }
 ```
@@ -50,7 +50,7 @@ For maven
 ````xml
 <dependencies>
     <dependency>
-        <groupId>com.github.goatfryed</groupId>
+        <groupId>io.github.goatfryed</groupId>
         <artifactId>assert-baseline</artifactId>
         <version>{version}</version>
     </dependency>
@@ -62,7 +62,7 @@ See [releases](https://github.com/goatfryed/assert-baseline/releases) for the la
 
 #### Writing assertions
 ```java
-import static com.github.goatfryed.assert_baseline.Assertions.assertThatJson;
+import static io.github.goatfryed.assert_baseline.Assertions.assertThatJson;
 
 assertThatJson(jsonString)
     .jsonSatisfies(jsonAssert -> jsonAssert.satisfiesSomething())

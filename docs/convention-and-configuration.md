@@ -17,16 +17,16 @@ By default, the following conventions are assumed
 ## Custom convention
 If you want to customize the baseline test behavior, you can do so using [SPI](https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html).
 
-Register your desired Convention in `META-INF/services/com.github.goatfryed.assert_baseline.Convention`.
-See [this](./src/testSpi/resources/META-INF/services/com.github.goatfryed.assert_baseline.Convention) example.
+Register your desired Convention in `META-INF/services/io.github.goatfryed.assert_baseline.Convention`.
+See [this](./src/testSpi/resources/META-INF/services/io.github.goatfryed.assert_baseline.Convention) example.
 
 Note: Configuration of different resource roots is easy. More complex setups can be achieved,
 but we do not guarantee the stability of the internal api at the moment.
 
-If you want to define your own convention, implement [com.github.goatfryed.assert_baseline.Convention](./src/main/java/com/github/goatfryed/assert_baseline/Convention.java).
+If you want to define your own convention, implement [io.github.goatfryed.assert_baseline.Convention](./src/main/java/com/github/goatfryed/assert_baseline/Convention.java).
 
 Usually, you want to do so by extending
-[com.github.goatfryed.assert_baseline.convention.AbstractConvention](./src/main/java/com/github/goatfryed/assert_baseline/convention/AbstractConvention.java)
+[io.github.goatfryed.assert_baseline.convention.AbstractConvention](./src/main/java/com/github/goatfryed/assert_baseline/convention/AbstractConvention.java)
 
 ```java
 public class MyBaselineConvention extends AbstractConvention {

@@ -2,7 +2,7 @@
 JSON support is added through [json-unit](https://github.com/lukas-krecan/JsonUnit).
 
 ```java
-import static com.github.goatfryed.assert_baseline.Assertions.assertThatJson;
+import static io.github.goatfryed.assert_baseline.Assertions.assertThatJson;
 
 assertThatJson(jsonString)
     .isEqualToBaseline("src/test/resources/specs/my.baseline.json");
@@ -11,9 +11,9 @@ assertThatJson(jsonString)
 ## Include in your project
 For gradle
 ```groovy
-    implementation("com.github.goatfryed:assert-baseline:1.0.0-alpha1-SNAPSHOT") {
+    implementation("io.github.goatfryed:assert-baseline:1.0.0-alpha1-SNAPSHOT") {
         capabilities {
-           requireCapability("com.github.goatfryed:assert-baseline-json")
+           requireCapability("io.github.goatfryed:assert-baseline-json")
         }
     }
 ```
@@ -22,7 +22,7 @@ For maven
 ````xml
 <dependencies>
     <dependency>
-        <groupId>com.github.goatfryed</groupId>
+        <groupId>io.github.goatfryed</groupId>
         <artifactId>assert-baseline</artifactId>
         <version>{version}</version>
     </dependency>

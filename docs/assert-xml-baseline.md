@@ -2,7 +2,7 @@
 XML support is added through [xml-unit](https://github.com/xmlunit/xmlunit).
 
 ```java
-import static com.github.goatfryed.assert_baseline.Assertions.assertThatXml;
+import static io.github.goatfryed.assert_baseline.Assertions.assertThatXml;
 
 assertThatXml(xmlString)
     .isEqualToBaseline("src/test/resources/specs/my.baseline.xml");
@@ -11,9 +11,9 @@ assertThatXml(xmlString)
 ## Include in your project
 For gradle
 ```groovy
-    implementation("com.github.goatfryed:assert-baseline:1.0.0-alpha1-SNAPSHOT") {
+    implementation("io.github.goatfryed:assert-baseline:1.0.0-alpha1-SNAPSHOT") {
         capabilities {
-           requireCapability("com.github.goatfryed:assert-baseline-xml")
+           requireCapability("io.github.goatfryed:assert-baseline-xml")
         }
     }
 ```
@@ -22,7 +22,7 @@ For maven
 ````xml
 <dependencies>
     <dependency>
-        <groupId>com.github.goatfryed</groupId>
+        <groupId>io.github.goatfryed</groupId>
         <artifactId>assert-baseline</artifactId>
         <version>{version}</version>
     </dependency>
@@ -37,7 +37,7 @@ For maven
 ## Tips & Recipes
 Ignore auto-generated, volatile fields
 ```java
-import static com.github.goatfryed.assert_baseline.xml.XmlDiffConfiguration.ignoringXPath;
+import static io.github.goatfryed.assert_baseline.xml.XmlDiffConfiguration.ignoringXPath;
 
 assertThatXml(xmlContent)
     .usingXmlComparator(diff -> diff
