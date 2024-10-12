@@ -2,7 +2,7 @@
 String assertions require no additional dependency and use simply AssertJ.
 
 ```java
-import static com.github.goatfryed.assert_baseline.Assertions.assertThatText;
+import static io.github.goatfryed.assert_baseline.Assertions.assertThatText;
 
 assertThatText(yourString)
     .isEqualToBaseline("src/test/resources/specs/my.baseline.txt");
@@ -11,14 +11,14 @@ assertThatText(yourString)
 ## Include in your project
 For gradle
 ```groovy
-    implementation("com.github.goatfryed:assert-baseline:1.0.0-alpha1-SNAPSHOT") {}
+    implementation("io.github.goatfryed:assert-baseline:1.0.0-alpha1-SNAPSHOT") {}
 ```
 
 For maven
 ````xml
 <dependencies>
     <dependency>
-        <groupId>com.github.goatfryed</groupId>
+        <groupId>io.github.goatfryed</groupId>
         <artifactId>assert-baseline</artifactId>
         <version>{version}</version>
     </dependency>
