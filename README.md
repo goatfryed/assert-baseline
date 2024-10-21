@@ -103,6 +103,13 @@ By default, the following conventions are assumed
 
 See [conventions & configuration](./docs/convention-and-configuration.md) how this can be changed.
 
+## Tips & Tricks
+### Force overwrite
+Use system property `-Dio.github.goatfryed.assert_baseline.forceBaselineUpdate` to force baseline overwrites.
+Use with care! This will skip all assertions and overwrite your baselines.
+We recommend to git commit before and git diff after to verify your new baselines. This can ease test updates after larger updates.
+
+
 ## Goals & Non-Goals
 See our [project scope](./docs/project-scope.md) to for more
 

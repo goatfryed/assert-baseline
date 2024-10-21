@@ -12,6 +12,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class BaselineContext {
@@ -20,13 +22,16 @@ public class BaselineContext {
     private final StoredValue actual;
     @NotNull
     private final StoredValue baseline;
+    @NotNull final Map<Options, Object> options;
 
     public BaselineContext(
         @NotNull StoredValue baseline,
-        @NotNull StoredValue actual
+        @NotNull StoredValue actual,
+        @NotNull Map<Options, Object> options
     ) {
         this.actual = actual;
         this.baseline = baseline;
+        this.options = options;
 
         actual.setName("actual   :");
         baseline.setName("baseline :");
@@ -52,6 +57,17 @@ public class BaselineContext {
     }
 
     public void assertWithAdapter(BaselineAssertionAdapter adapter) {
+        // not using .getOrDefault, because explicit null should be treated as false as well
+        boolean forceBaselineUpdate = Optional.ofNullable(
+                (Boolean) options.get(Options.StandardOptions.FORCE_BASELINE_UPDATE)
+            ).orElse(false);
+
+        if (forceBaselineUpdate) {
+            adapter.writeActual(new ActualOutput(getBaseline()), this);
+            System.err.println("WARNING: Forced baseline creation or update of %s. Skipping check.".formatted(getBaseline().asDescription()));
+            return;
+        }
+
         var actualOutput = new ActualOutput(getActual());
         adapter.writeActual(actualOutput, this);
 
