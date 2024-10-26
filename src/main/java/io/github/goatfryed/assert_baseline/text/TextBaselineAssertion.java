@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TextBaselineAssertion extends AbstractBaselineAssertion<TextBaselineAssertion> implements BaselineAssertionAdapter {
+public class TextBaselineAssertion extends AbstractBaselineAssertion<TextBaselineAssertion,String> {
 
     private final SerializableSubject subject;
 
@@ -27,22 +27,25 @@ public class TextBaselineAssertion extends AbstractBaselineAssertion<TextBaselin
 
     @Override
     protected @NotNull BaselineAssertionAdapter getAssertionAdapter() {
-        return this;
-    }
-
-    @Override
-    public void writeActual(BaselineContext.ActualOutput actualOutput, BaselineContext context) {
-        subject.writeTo(actualOutput::outputStream);
-    }
-
-    @Override
-    public void assertEquals(BaselineContext.BaselineInput baselineInput, BaselineContext context) {
-        getStringAssert()
-            .describedAs(context.asDescription())
-            .isEqualTo(baselineInput.readContentAsString());
+        return new Adapter();
     }
 
     private AbstractStringAssert<?> getStringAssert() {
         return assertThat(subject.serialized());
+    }
+
+    private class Adapter implements BaselineAssertionAdapter {
+
+        @Override
+        public void writeActual(BaselineContext.ActualOutput actualOutput, BaselineContext context) {
+            subject.writeTo(actualOutput::outputStream);
+        }
+
+        @Override
+        public void assertEquals(BaselineContext.BaselineInput baselineInput, BaselineContext context) {
+            getStringAssert()
+                .describedAs(context.asDescription())
+                .isEqualTo(baselineInput.readContentAsString());
+        }
     }
 }

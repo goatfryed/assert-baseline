@@ -23,7 +23,7 @@ public class BaselineAssertionTest {
         ).hasMessageContaining("Both should have different names");
     }
 
-    private static class DummyBaselineAssertion extends AbstractBaselineAssertion<DummyBaselineAssertion> {
+    private static class DummyBaselineAssertion extends AbstractBaselineAssertion<DummyBaselineAssertion,String> {
 
         protected DummyBaselineAssertion() {
             super("ignored", DummyBaselineAssertion.class);

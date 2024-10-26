@@ -13,7 +13,8 @@ import java.util.function.Function;
 
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 
-public class JsonBaselineAssertion extends AbstractBaselineAssertion<JsonBaselineAssertion> implements BaselineAssertionAdapter {
+public class JsonBaselineAssertion extends AbstractBaselineAssertion<JsonBaselineAssertion,String> {
+
     private final SerializableSubject subject;
     private Function<Configuration, Configuration> comparatorConfigurer = Function.identity();
 
@@ -46,18 +47,6 @@ public class JsonBaselineAssertion extends AbstractBaselineAssertion<JsonBaselin
         return myself;
     }
 
-    @Override
-    public void writeActual(BaselineContext.ActualOutput actualOutput, BaselineContext context) {
-        subject.writeTo(actualOutput::outputStream);
-    }
-
-    @Override
-    public void assertEquals(BaselineContext.BaselineInput baselineInput, BaselineContext context) {
-        getJsonAssert()
-            .describedAs(context.asDescription())
-            .isEqualTo(baselineInput.readContentAsString());
-    }
-
     private JsonAssert.ConfigurableJsonAssert getJsonAssert() {
         return assertThatJson(subject.serialized())
             .withConfiguration(comparatorConfigurer);
@@ -65,6 +54,20 @@ public class JsonBaselineAssertion extends AbstractBaselineAssertion<JsonBaselin
 
     @Override
     protected @NotNull BaselineAssertionAdapter getAssertionAdapter() {
-        return this;
+        return new Adapter();
+    }
+
+    private class Adapter implements BaselineAssertionAdapter {
+        @Override
+        public void writeActual(BaselineContext.ActualOutput actualOutput, BaselineContext context) {
+            subject.writeTo(actualOutput::outputStream);
+        }
+
+        @Override
+        public void assertEquals(BaselineContext.BaselineInput baselineInput, BaselineContext context) {
+            getJsonAssert()
+                .describedAs(context.asDescription())
+                .isEqualTo(baselineInput.readContentAsString());
+        }
     }
 }

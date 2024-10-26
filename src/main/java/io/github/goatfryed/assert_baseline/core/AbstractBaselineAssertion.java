@@ -8,14 +8,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
-abstract public class AbstractBaselineAssertion<SELF extends AbstractBaselineAssertion<SELF>>
-    extends AbstractAssert<SELF, String>
+abstract public class AbstractBaselineAssertion<SELF extends AbstractBaselineAssertion<SELF,ACTUAL>, ACTUAL>
+    extends AbstractAssert<SELF, ACTUAL>
     implements BaselineAssertion<SELF> {
 
     private BaselineContextFactory contextFactory;
 
-    protected AbstractBaselineAssertion(String string, Class<?> selfType) {
-        super(string, selfType);
+    protected AbstractBaselineAssertion(ACTUAL actual, Class<?> selfType) {
+        super(actual, selfType);
     }
 
     public SELF using(Function<BaselineContextFactory,BaselineContextFactory> config) {
