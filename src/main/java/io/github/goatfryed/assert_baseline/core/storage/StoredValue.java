@@ -28,9 +28,7 @@ public class StoredValue {
     }
 
     public Description asDescription() {
-        var innerDescription = driver != null ?
-            driver.asDescription(descriptor).toString()
-            : "[NO DRIVER SET]";
+        var innerDescription = driver.asDescription(descriptor).toString();
         return new TextDescription(name + " " + innerDescription);
     }
 
@@ -43,20 +41,12 @@ public class StoredValue {
         return this;
     }
 
-    public InputStream getInputStream() {
-        try {
-            return driver.getInputStream(descriptor);
-        } catch (IOException e) {
-            throw new AssertionError("failed to create input stream for " + asDescription(), e);
-        }
+    public InputStream getInputStream() throws IOException {
+        return driver.getInputStream(descriptor);
     }
 
-    public OutputStream getOutputStream() {
-        try {
-            return driver.getOutputStream(descriptor);
-        } catch (IOException e) {
-            throw new AssertionError("failed to create output stream for " + asDescription(), e);
-        }
+    public OutputStream getOutputStream() throws IOException {
+        return driver.getOutputStream(descriptor);
     }
 
     public Object getDriverDescriptor() {

@@ -1,7 +1,9 @@
 package io.github.goatfryed.assert_baseline;
 
 import io.github.goatfryed.assert_baseline.core.AbstractBaselineAssertion;
+import io.github.goatfryed.assert_baseline.core.BaselineAssertionAdapter;
 import io.github.goatfryed.assert_baseline.core.BaselineContext;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import static io.github.goatfryed.assert_baseline.BaselineConfigurations.*;
@@ -28,9 +30,15 @@ public class BaselineAssertionTest {
         }
 
         @Override
-        protected void saveActual(BaselineContext context) {}
+        protected @NotNull BaselineAssertionAdapter getAssertionAdapter() {
+            return new BaselineAssertionAdapter() {
 
-        @Override
-        protected void verifyIsEqualToBaseline(BaselineContext context) {}
+                @Override
+                public void writeActual(BaselineContext.ActualOutput output, BaselineContext context) {}
+
+                @Override
+                public void assertEquals(BaselineContext.BaselineInput baseline, BaselineContext context) {}
+            };
+        }
     }
 }

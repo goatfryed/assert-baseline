@@ -49,4 +49,13 @@ public class ValueDescriptor {
         tags.add(tag);
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "ValueDescriptor{" +
+            "contextPath=" + contextPath +
+            ", valuePath=" + valuePath +
+            ", tags=" + tags +
+            '}';
+    }
 }

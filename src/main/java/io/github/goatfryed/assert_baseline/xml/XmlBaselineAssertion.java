@@ -1,8 +1,10 @@
 package io.github.goatfryed.assert_baseline.xml;
 
 import io.github.goatfryed.assert_baseline.core.AbstractBaselineAssertion;
+import io.github.goatfryed.assert_baseline.core.BaselineAssertionAdapter;
 import io.github.goatfryed.assert_baseline.core.BaselineContext;
 import io.github.goatfryed.assert_baseline.SerializableSubject;
+import org.jetbrains.annotations.NotNull;
 import org.xmlunit.assertj.CompareAssert;
 import org.xmlunit.assertj.XmlAssert;
 
@@ -11,7 +13,7 @@ import java.util.function.Function;
 
 import static org.xmlunit.assertj.XmlAssert.assertThat;
 
-public class XmlBaselineAssertion extends AbstractBaselineAssertion<XmlBaselineAssertion> {
+public class XmlBaselineAssertion extends AbstractBaselineAssertion<XmlBaselineAssertion> implements BaselineAssertionAdapter {
     private final SerializableSubject subject;
     private Function<CompareAssert, CompareAssert> comparatorConfigurer = Function.identity();
 
@@ -45,14 +47,19 @@ public class XmlBaselineAssertion extends AbstractBaselineAssertion<XmlBaselineA
     }
 
     @Override
-    protected void saveActual(BaselineContext context) {
-        subject.writeTo(context::getActualOutputStream);
+    protected @NotNull BaselineAssertionAdapter getAssertionAdapter() {
+        return this;
     }
 
     @Override
-    protected void verifyIsEqualToBaseline(BaselineContext context) {
+    public void writeActual(BaselineContext.ActualOutput actualOutput, BaselineContext context) {
+        subject.writeTo(actualOutput::outputStream);
+    }
+
+    @Override
+    public void assertEquals(BaselineContext.BaselineInput baselineInput, BaselineContext context) {
         comparatorConfigurer.apply(
-                getXmlAssert().and(context.getBaselineAsString())
+                getXmlAssert().and(baselineInput.readContentAsString())
             )
             .describedAs(context.asDescription())
             .areSimilar();

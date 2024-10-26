@@ -8,14 +8,19 @@ Compare [JsonBaselineAssertion](../src/main/java/io/github/goatfryed/assert_base
 (!) This internal API is considered unstable.
 
 ## Extending from AbstractBaselineAssertion
+You can extend from [AbstractBaselineAssertion](../src/main/java/io/github/goatfryed/assert_baseline/core/AbstractBaselineAssertion.java)
 
-### 1. implement write
-Implement `AbstractBaselineAssertion::saveActual(BaselineContext)`.
-Serialize your subject and write it to `BaselineContext::getActualOutputStream`
+### implement assertion logic
+First implement `AbstractBaselineAssertion::getAdapter(BaselineContext)`.
 
-### 2. implement verification
-Implement `verifyIsEqualToBaseline(BaselineContext context)`.
-Usually, you'll want to read from `BaselineContext::getBaselineAsString(), deserialize the baseline,
-and then compare the java beans.
+Compare [JsonBaselineAssertion](../src/main/java/io/github/goatfryed/assert_baseline/json/JsonBaselineAssertion.java)
+for an example.
+
+The adapter is used to decouple operations from the test strategy used.
+Effectively, atm we just implement the adapter on the assertion itself and don't use more complex context.
+This is likely to change in the future, when more complex strategies are required.
 
 ### implement further conventional methods
+Usually, you want to implement at least
+- `usingYourFormatComparator(...)`
+- `yourFormatSatisfies(...)`

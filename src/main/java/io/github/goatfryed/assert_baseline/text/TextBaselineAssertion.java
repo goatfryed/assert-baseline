@@ -1,17 +1,17 @@
 package io.github.goatfryed.assert_baseline.text;
 
 import io.github.goatfryed.assert_baseline.core.AbstractBaselineAssertion;
+import io.github.goatfryed.assert_baseline.core.BaselineAssertionAdapter;
 import io.github.goatfryed.assert_baseline.core.BaselineContext;
 import io.github.goatfryed.assert_baseline.SerializableSubject;
-import net.javacrumbs.jsonunit.core.Configuration;
 import org.assertj.core.api.AbstractStringAssert;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TextBaselineAssertion extends AbstractBaselineAssertion<TextBaselineAssertion> {
+public class TextBaselineAssertion extends AbstractBaselineAssertion<TextBaselineAssertion> implements BaselineAssertionAdapter {
 
     private final SerializableSubject subject;
 
@@ -26,15 +26,20 @@ public class TextBaselineAssertion extends AbstractBaselineAssertion<TextBaselin
     }
 
     @Override
-    protected void saveActual(BaselineContext context) {
-        subject.writeTo(context::getActualOutputStream);
+    protected @NotNull BaselineAssertionAdapter getAssertionAdapter() {
+        return this;
     }
 
     @Override
-    protected void verifyIsEqualToBaseline(BaselineContext context) {
+    public void writeActual(BaselineContext.ActualOutput actualOutput, BaselineContext context) {
+        subject.writeTo(actualOutput::outputStream);
+    }
+
+    @Override
+    public void assertEquals(BaselineContext.BaselineInput baselineInput, BaselineContext context) {
         getStringAssert()
             .describedAs(context.asDescription())
-            .isEqualTo(context.getBaselineAsString());
+            .isEqualTo(baselineInput.readContentAsString());
     }
 
     private AbstractStringAssert<?> getStringAssert() {

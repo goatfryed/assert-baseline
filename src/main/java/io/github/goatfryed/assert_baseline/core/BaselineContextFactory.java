@@ -1,7 +1,11 @@
 package io.github.goatfryed.assert_baseline.core;
 
 import io.github.goatfryed.assert_baseline.core.storage.*;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class BaselineContextFactory {
@@ -21,7 +25,22 @@ public class BaselineContextFactory {
 
         validateDifferentPaths(baseline, actual);
 
-        return new BaselineContext(baseline, actual);
+        return new BaselineContext(baseline, actual, collectOptions());
+    }
+
+    private @NotNull Map<Options, Object> collectOptions() {
+        Map<Options, Object> options = new HashMap<>();
+
+        for (Options.StandardOptions option : Options.StandardOptions.values()) {
+            option.cliOption().ifPresent(cliOption -> {
+                var property = System.getProperty(cliOption.systemProperty());
+                if (property != null) {
+                    options.put(option, cliOption.optionType().normalize(property));
+                }
+            });
+        }
+
+        return options;
     }
 
     private void validateDifferentPaths(StoredValue baseline, StoredValue actual) {
