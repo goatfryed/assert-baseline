@@ -11,11 +11,12 @@ public class BaselineAssertions {
         return new JsonBaselineAssertion(new SerializableSubject(string));
     }
 
+    public static TextBaselineAssertion assertThatText(String string) {
+        return new TextBaselineAssertion(new SerializableSubject(string));
+    }
+
     public static XmlBaselineAssertion assertThatXml(String string) {
         return new XmlBaselineAssertion(new SerializableSubject(string));
     }
 
-    public static TextBaselineAssertion assertThatText(String string) {
-        return new TextBaselineAssertion(new SerializableSubject(string));
-    }
 }
