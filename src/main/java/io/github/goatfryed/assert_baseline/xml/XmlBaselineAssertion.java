@@ -13,7 +13,8 @@ import java.util.function.Function;
 
 import static org.xmlunit.assertj.XmlAssert.assertThat;
 
-public class XmlBaselineAssertion extends AbstractBaselineAssertion<XmlBaselineAssertion> implements BaselineAssertionAdapter {
+public class XmlBaselineAssertion extends AbstractBaselineAssertion<XmlBaselineAssertion,String> {
+
     private final SerializableSubject subject;
     private Function<CompareAssert, CompareAssert> comparatorConfigurer = Function.identity();
 
@@ -48,24 +49,27 @@ public class XmlBaselineAssertion extends AbstractBaselineAssertion<XmlBaselineA
 
     @Override
     protected @NotNull BaselineAssertionAdapter getAssertionAdapter() {
-        return this;
-    }
-
-    @Override
-    public void writeActual(BaselineContext.ActualOutput actualOutput, BaselineContext context) {
-        subject.writeTo(actualOutput::outputStream);
-    }
-
-    @Override
-    public void assertEquals(BaselineContext.BaselineInput baselineInput, BaselineContext context) {
-        comparatorConfigurer.apply(
-                getXmlAssert().and(baselineInput.readContentAsString())
-            )
-            .describedAs(context.asDescription())
-            .areSimilar();
+        return new Adapter();
     }
 
     private XmlAssert getXmlAssert() {
         return assertThat(subject.serialized());
+    }
+
+    private class Adapter implements BaselineAssertionAdapter {
+
+        @Override
+        public void writeActual(BaselineContext.ActualOutput actualOutput, BaselineContext context) {
+            subject.writeTo(actualOutput::outputStream);
+        }
+
+        @Override
+        public void assertEquals(BaselineContext.BaselineInput baselineInput, BaselineContext context) {
+            comparatorConfigurer.apply(
+                    getXmlAssert().and(baselineInput.readContentAsString())
+                )
+                .describedAs(context.asDescription())
+                .areSimilar();
+        }
     }
 }

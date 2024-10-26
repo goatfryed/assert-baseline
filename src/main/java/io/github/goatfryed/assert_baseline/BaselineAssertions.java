@@ -1,6 +1,7 @@
 package io.github.goatfryed.assert_baseline;
 
 import io.github.goatfryed.assert_baseline.json.JsonBaselineAssertion;
+import io.github.goatfryed.assert_baseline.serializable.SerializableBaselineAssertion;
 import io.github.goatfryed.assert_baseline.text.TextBaselineAssertion;
 import io.github.goatfryed.assert_baseline.xml.XmlBaselineAssertion;
 
