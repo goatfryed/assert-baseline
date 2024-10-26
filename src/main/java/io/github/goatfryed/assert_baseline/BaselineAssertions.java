@@ -19,4 +19,7 @@ public class BaselineAssertions {
         return new XmlBaselineAssertion(new SerializableSubject(string));
     }
 
+    public static <ACTUAL> SerializableBaselineAssertion<ACTUAL> assertThatSerializable(ACTUAL actual) {
+        return new SerializableBaselineAssertion<>(actual);
+    }
 }
