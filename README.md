@@ -5,16 +5,14 @@ Compare and approve system outputs with well-defined serialization rules based o
 
 ## What is AssertBaseline?
 AssertBaseline extends [AssertJ](https://github.com/assertj/assertj) to integrate format specific assertions with
-common aspect of baseline testing, primarily the storage aspect (load baselines, save outputs).
+common aspect of baseline approval testing, primarily the storage aspect (load baselines, save outputs).
 
-### What is baseline testing?
+### What is baseline approval testing?
 In baseline testing you define a baseline based on some system output and verify that
 your system satisfies this output as it evolves. If the evolution of your system changes
-the output intentionally, you verify the new output and accept it as your updated baseline.
+the output intentionally, you verify the new output and approve it as your updated baseline.
 
-This is closely related to approval testing. You approve your output and accept it as your baseline.
-
-### Baseline testing for serializable outputs
+### Baseline approval testing for serializable outputs
 In the context of serializable outputs (log messages, json messages, xml requests, ...)
 baseline testing can often ease and improve your test setup. You can define tests in terms
 of the actual serialized representation instead and omit a translation layer from format to models
