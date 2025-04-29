@@ -1,0 +1,23 @@
+[versions]
+apache-commons-lang = "3.16.0"
+assertj = "3.26.3"
+commons-io = "2.16.1"
+jackson = "2.17.2"
+javacrumbs-json-unit = "3.4.1"
+jetbrains-annotations = "23.0.0"
+junit = "5.11.0"
+lalaki-central-plugin = "1.2.5"
+xml-unit = "2.10.0"
+
+[plugins]
+lalaki-central-plugin = { id = "cn.lalaki.central", version.ref = "lalaki-central-plugin" }
+
+[libraries]
+apache-commons-lang = { module = "org.apache.commons:commons-lang3", version.ref = "apache-commons-lang"}
+assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+commons-io = { module = "commons-io:commons-io", version.ref = "commons-io" }
+jackson = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+javacrumbs-json-unit = { module = "net.javacrumbs.json-unit:json-unit-assertj", version.ref = "javacrumbs-json-unit" }
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
+junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+xml-unit = { module = "org.xmlunit:xmlunit-assertj", version.ref = "xml-unit" }

@@ -5,7 +5,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'signing'
-    id("cn.lalaki.central") version "1.2.5"
+    alias(libs.plugins.lalaki.central.plugin)
 }
 
 group = "io.github.goatfryed"
@@ -37,16 +37,15 @@ javadoc {
 }
 
 dependencies {
-    implementation 'org.apache.commons:commons-lang3:3.16.0'
-    implementation 'commons-io:commons-io:2.16.1'
-    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation libs.apache.commons.lang
+    implementation libs.commons.io
+    implementation libs.jetbrains.annotations
 
-    implementation 'org.junit.jupiter:junit-jupiter:5.11.0'
-    implementation 'org.jetbrains:annotations:23.0.0'
-    api 'org.assertj:assertj-core:3.26.3'
+    implementation libs.junit
+    api libs.assertj
 
-    jsonApi 'net.javacrumbs.json-unit:json-unit-assertj:3.4.1'
-    xmlApi 'org.xmlunit:xmlunit-assertj:2.10.0'
+    jsonApi libs.javacrumbs.json.unit
+    xmlApi libs.xml.unit
 }
 
 testing {
@@ -56,7 +55,7 @@ testing {
         test {
             useJUnitJupiter()
             dependencies {
-                implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
+                implementation libs.jackson
             }
         }
 
@@ -83,10 +82,10 @@ testing {
         withType(JvmTestSuite).matching { it.name in ["testSpi","testRecipes"] }.configureEach {
             dependencies {
                 implementation project()
-                implementation 'org.apache.commons:commons-lang3:3.16.0'
-                implementation 'commons-io:commons-io:2.16.1'
-                implementation 'org.jetbrains:annotations:23.0.0'
-                implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
+                implementation libs.apache.commons.lang
+                implementation libs.commons.io
+                implementation libs.jetbrains.annotations
+                implementation libs.jackson
             }
         }
     }
