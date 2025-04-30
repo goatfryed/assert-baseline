@@ -6,7 +6,7 @@ jackson = "2.17.2"
 javacrumbs-json-unit = "3.4.1"
 jetbrains-annotations = "26.0.2"
 junit = "5.11.0"
-lalaki-central-plugin = "1.2.5"
+lalaki-central-plugin = "1.2.8"
 xml-unit = "2.10.0"
 
 [plugins]
