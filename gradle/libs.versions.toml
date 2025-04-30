@@ -2,7 +2,7 @@
 apache-commons-lang = "3.16.0"
 assertj = "3.26.3"
 commons-io = "2.16.1"
-jackson = "2.17.2"
+jackson = "2.19.0"
 javacrumbs-json-unit = "3.4.1"
 jetbrains-annotations = "23.0.0"
 junit = "5.11.0"
