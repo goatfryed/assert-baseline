@@ -45,6 +45,7 @@ dependencies {
     api libs.assertj
 
     jsonApi libs.javacrumbs.json.unit
+    jsonApi libs.json.smart
     xmlApi libs.xml.unit
 }
 
