@@ -8,6 +8,8 @@ on:
             - main
 jobs:
     Verify:
+        permissions:
+            contents: read
         name: Verify build
         runs-on: ubuntu-latest
         steps:
