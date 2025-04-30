@@ -8,6 +8,7 @@ jetbrains-annotations = "26.0.2"
 junit = "5.12.2"
 lalaki-central-plugin = "1.2.8"
 xml-unit = "2.10.0"
+json-smart = "2.5.2"
 
 [plugins]
 lalaki-central-plugin = { id = "cn.lalaki.central", version.ref = "lalaki-central-plugin" }
@@ -19,5 +20,6 @@ commons-io = { module = "commons-io:commons-io", version.ref = "commons-io" }
 jackson = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 javacrumbs-json-unit = { module = "net.javacrumbs.json-unit:json-unit-assertj", version.ref = "javacrumbs-json-unit" }
 jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
+json-smart = { module = "net.minidev:json-smart", version.ref = "json-smart" }
 junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 xml-unit = { module = "org.xmlunit:xmlunit-assertj", version.ref = "xml-unit" }
