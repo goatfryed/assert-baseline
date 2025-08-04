@@ -8,7 +8,7 @@ jetbrains-annotations = "26.0.2"
 junit = "5.12.2"
 lalaki-central-plugin = "1.2.8"
 xml-unit = "2.10.0"
-json-smart = "2.5.2"
+json-smart = "2.6.0"
 
 [plugins]
 lalaki-central-plugin = { id = "cn.lalaki.central", version.ref = "lalaki-central-plugin" }
