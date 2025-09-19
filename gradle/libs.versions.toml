@@ -1,6 +1,6 @@
 [versions]
 apache-commons-lang = "3.17.0"
-assertj = "3.27.3"
+assertj = "3.27.5"
 commons-io = "2.19.0"
 jackson = "2.19.0"
 javacrumbs-json-unit = "4.1.0"
