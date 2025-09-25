@@ -1,5 +1,5 @@
 [versions]
-apache-commons-lang = "3.17.0"
+apache-commons-lang = "3.19.0"
 assertj = "3.27.3"
 commons-io = "2.19.0"
 jackson = "2.19.0"
